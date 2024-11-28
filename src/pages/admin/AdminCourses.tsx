@@ -1,53 +1,55 @@
-import React, { useState } from 'react';
-import { Plus, Edit, Trash2, BookOpen } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import CourseModal from '../../components/modals/CourseModal';
+import React, { useState } from "react";
+import { Plus, Edit, Trash2, BookOpen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import CourseModal from "../../components/modals/CourseModal";
+import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
 
 export default function AdminCourses() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const courses = [
     {
       id: 1,
-      title: 'Nền tảng React',
-      description: 'Học các kiến thức cơ bản về phát triển React',
-      duration: '6 tuần',
+      title: "Khái niệm Trí tuệ nhân tạo (AI)",
+      description: "AI là khả năng máy tính thực hiện các công việc trí tuệ như con người.",
+      duration: "6 tuần",
       lessons: 12,
       students: 156,
     },
     {
       id: 2,
-      title: 'JavaScript Nâng cao',
-      description: 'Làm chủ các khái niệm nâng cao của JavaScript',
-      duration: '8 tuần',
+      title: "Mạng máy tính và Internet",
+      description: "Mạng máy tính kết nối các thiết bị để truyền và trao đổi dữ liệu.",
+      duration: "8 tuần",
       lessons: 15,
       students: 143,
     },
     {
       id: 3,
-      title: 'Bootcamp Phát triển Web',
-      description: 'Khóa học phát triển web hoàn chỉnh',
-      duration: '12 tuần',
+      title: "Giữ gìn tính nhân văn trong thế giới ảo",
+      description: "Giao tiếp qua mạng kết nối mọi người nhanh chóng, tiện lợi.",
+      duration: "12 tuần",
       lessons: 24,
       students: 128,
     },
   ];
 
-  const handleEditCourse = (course:any) => {
+  const handleEditCourse = (course: any) => {
     setSelectedCourse(course);
     setIsModalOpen(true);
   };
 
   const handleDeleteCourse = (courseId: number) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa khóa học này không?')) {
-      console.log('Đang xóa khóa học:', courseId);
+    if (window.confirm("Bạn có chắc chắn muốn xóa khóa học này không?")) {
+      console.log("Đang xóa khóa học:", courseId);
     }
   };
 
   const handleSubmit = (courseData: any) => {
-    console.log('Đang gửi dữ liệu khóa học:', courseData);
+    console.log("Đang gửi dữ liệu khóa học:", courseData);
     // Thêm API call ở đây
   };
 
@@ -55,7 +57,7 @@ export default function AdminCourses() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Quản lí khóa học</h1>
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
         >
@@ -66,21 +68,18 @@ export default function AdminCourses() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {courses.map((course) => (
-          <div 
-            key={course.id} 
-            className="bg-white rounded-lg shadow-sm overflow-hidden"
-          >
+          <div key={course.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <BookOpen className="w-8 h-8 text-blue-600" />
                 <div className="flex space-x-2">
-                  <button 
+                  <button
                     onClick={() => handleEditCourse(course)}
                     className="text-blue-600 hover:text-blue-900"
                   >
                     <Edit className="w-5 h-5" />
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleDeleteCourse(course?.id)}
                     className="text-red-600 hover:text-red-900"
                   >
@@ -95,7 +94,7 @@ export default function AdminCourses() {
                 <div className="text-sm text-gray-500">Bài học: {course.lessons}</div>
                 <div className="text-sm text-gray-500">Số lượng học sinh: {course.students}</div>
               </div>
-              <button 
+              <button
                 onClick={() => navigate(`/admin/courses/${course.id}`)}
                 className="mt-4 w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200"
               >

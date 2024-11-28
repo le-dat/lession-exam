@@ -100,9 +100,9 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold mb-4">Khóa học Gần đây</h2>
           <div className="space-y-4">
             {[
-              { title: 'Nền tảng React', students: 156 },
-              { title: 'JavaScript Nâng cao', students: 143 },
-              { title: 'Phát triển Web', students: 128 },
+              { title: 'Khái niệm Trí tuệ nhân tạo (AI)', students: 156 },
+              { title: 'Mạng máy tính và Internet', students: 143 },
+              { title: 'Giữ gìn tính nhân văn trong thế giới ảo', students: 128 },
             ].map((course, index) => (
               <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
@@ -131,8 +131,8 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold mb-4">Bài kiểm tra Gần đây</h2>
           <div className="space-y-4">
             {[
-              { title: 'Kiểm tra Cơ bản về React', attempts: 89 },
-              { title: 'Quiz JavaScript', attempts: 76 },
+              { title: 'Khái niệm Trí tuệ nhân tạo (AI)', attempts: 89 },
+              { title: 'Mạng máy tính và Internet', attempts: 76 },
               { title: 'Đánh giá Cuối kỳ', attempts: 45 },
             ].map((exam, index) => (
               <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">

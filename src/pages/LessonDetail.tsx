@@ -1,46 +1,13 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Clock, Users, CheckCircle } from "lucide-react";
+import { BookOpen, CheckCircle, Clock, Users } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-
-const lessonContent = `
-# Giới thiệu về React
-
-React là một thư viện JavaScript để xây dựng giao diện người dùng. Nó cho phép bạn tạo ra các giao diện phức tạp từ các mảnh mã nhỏ và độc lập gọi là "components".
-
-## Các khái niệm chính
-
-1. **Components**
-   - Các khối xây dựng của ứng dụng React
-   - Có thể là class-based hoặc functional
-   - Có thể tái sử dụng và kết hợp
-
-2. **Props**
-   - Truyền dữ liệu giữa các components
-   - Chỉ đọc
-   - Giúp làm cho các components có thể tái sử dụng
-
-3. **State**
-   - Dữ liệu nội bộ của component
-   - Có thể được thay đổi bằng cách sử dụng setState
-   - Thay đổi sẽ kích hoạt re-renders
-
-## Mã ví dụ
-
-\`\`\`jsx
-function Welcome(props) {
-  return <h1>Xin chào, {props.name}</h1>;
-}
-\`\`\`
-
-## Bài tập thực hành
-
-Hãy thử tạo một component đơn giản hiển thị thông điệp chào mừng sử dụng các khái niệm đã học ở trên.
-`;
+import { useParams } from "react-router-dom";
+import { lessonContents } from "../constants/user/lession";
 
 export default function LessonDetail() {
-  const { id } = useParams();
+  const { id = 0 } = useParams();
+
+  const lessonContent = lessonContents[Number(id)];
 
   return (
     <motion.div
@@ -64,7 +31,7 @@ export default function LessonDetail() {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-6 sticky h-fit top-[80px]">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}

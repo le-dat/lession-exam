@@ -18,6 +18,7 @@ import PageTransition from "../../components/animations/PageTransition";
 import FadeIn from "../../components/animations/FadeIn";
 import SlideIn from "../../components/animations/SlideIn";
 import SEO from "../../components/SEO";
+import { courses } from "../../constants/admin/course";
 
 export default function CourseDetail() {
   const { id } = useParams();
@@ -33,56 +34,7 @@ export default function CourseDetail() {
   const [activeLesson, setActiveLesson] = useState(0);
 
   // Mock data - replace with API calls
-  const course = {
-    id: 1,
-    title: "Các nguyên tắc cơ bản của React",
-    description: "Học các kiến thức cơ bản về phát triển React",
-    duration: "6 tuần",
-    students: 156,
-    progress: 75,
-    lessons: [
-      {
-        id: 1,
-        title: "Giới thiệu về React",
-        duration: "45 phút",
-        status: "published" as "published" | "draft",
-        content: `# Giới thiệu về React
-
-        React là một thư viện JavaScript để xây dựng giao diện người dùng. Nó cho phép bạn tạo các giao diện phức tạp từ các mảnh mã nhỏ và cô lập gọi là "components".
-
-        ## Các khái niệm chính
-
-        1. **Components**
-          - Các khối xây dựng của ứng dụng React
-          - Có thể là class-based hoặc functional
-          - Có thể tái sử dụng và kết hợp
-
-        2. **Props**
-          - Truyền dữ liệu giữa các components
-          - Chỉ đọc
-          - Giúp làm cho các components có thể tái sử dụng
-
-        3. **State**
-          - Dữ liệu nội bộ của component
-          - Có thể được sửa đổi bằng cách sử dụng setState
-          - Thay đổi kích hoạt re-renders`,
-      },
-      {
-        id: 2,
-        title: "Components và Props",
-        duration: "60 phút",
-        status: "published" as "published" | "draft",
-        content: "# Nội dung Components và Props...",
-      },
-      {
-        id: 3,
-        title: "State và Lifecycle",
-        duration: "55 phút",
-        status: "draft" as "published" | "draft",
-        content: "# Nội dung State và Lifecycle...",
-      },
-    ],
-  };
+  const course = courses.find((course) => course.id === Number(id))!;
 
   const handleLessonSubmit = (lessonData: any) => {
     console.log("Submitting lesson:", lessonData);

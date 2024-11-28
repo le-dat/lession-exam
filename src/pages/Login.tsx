@@ -14,9 +14,11 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await login(email, password);
-    setTimeout(() => {
-      navigate(userRole === "admin"? "/admin" : "/dashboard");
-    }, 1000);
+    if (email === "admin@example.com" && password === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (

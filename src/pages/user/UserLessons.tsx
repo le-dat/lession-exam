@@ -7,25 +7,25 @@ export default function UserLessons() {
   const lessons = [
     {
       id: 1,
-      title: 'Giới thiệu về React',
-      description: 'Tìm hiểu các khái niệm cơ bản của React',
-      duration: '45 phút',
-      progress: 100,
+      title: "Khái niệm Trí tuệ nhân tạo (AI)",
+      description: "AI là khả năng máy tính thực hiện các công việc trí tuệ như con người.",
+      duration: "45 phút",
+      progress: 100
     },
     {
       id: 2,
-      title: 'Quản lý trạng thái',
-      description: 'Hiểu về state và props trong ứng dụng React',
-      duration: '60 phút',
-      progress: 75,
+      title: "Mạng máy tính và Internet",
+      description: "Mạng máy tính kết nối các thiết bị để truyền và trao đổi dữ liệu.",
+      duration: "60 phút",
+      progress: 75
     },
     {
       id: 3,
-      title: 'React Hooks',
-      description: 'Phát triển React hiện đại sử dụng hooks',
-      duration: '50 phút',
-      progress: 0,
-    },
+      title: "Giữ gìn tính nhân văn trong thế giới ảo",
+      description: "Giao tiếp qua mạng kết nối mọi người nhanh chóng, tiện lợi.",
+      duration: "50 phút",
+      progress: 0
+    }
   ];
 
   const handleLessonClick = (lessonId: number) => {
