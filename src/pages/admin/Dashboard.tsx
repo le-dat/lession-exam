@@ -25,10 +25,10 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const chartData = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
     datasets: [
       {
-        label: 'Student Performance',
+        label: 'Hiệu suất của học sinh',
         data: [65, 72, 78, 85],
         backgroundColor: 'rgba(59, 130, 246, 0.5)',
       },
@@ -37,13 +37,13 @@ export default function AdminDashboard() {
 
   const quickActions = [
     {
-      title: 'Add New Course',
+      title: 'Thêm Khóa học Mới',
       icon: <BookOpen className="w-6 h-6" />,
       onClick: () => navigate('/admin/courses'),
       color: 'bg-blue-600',
     },
     {
-      title: 'Create Exam',
+      title: 'Tạo Bài kiểm tra',
       icon: <FileQuestion className="w-6 h-6" />,
       onClick: () => navigate('/admin/exams'),
       color: 'bg-green-600',
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Tổng quan</h1>
         <div className="flex gap-4">
           {quickActions.map((action, index) => (
             <button
@@ -71,25 +71,25 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
           icon={<Users className="w-8 h-8 text-blue-600" />}
-          title="Total Students"
+          title="Tổng số Học sinh"
           value="1,234"
           onClick={() => {}}
         />
         <StatCard
           icon={<BookOpen className="w-8 h-8 text-green-600" />}
-          title="Active Courses"
+          title="Khóa học Đang hoạt động"
           value="45"
           onClick={() => navigate('/admin/courses')}
         />
         <StatCard
           icon={<FileQuestion className="w-8 h-8 text-purple-600" />}
-          title="Total Exams"
+          title="Tổng số Bài kiểm tra"
           value="28"
           onClick={() => navigate('/admin/exams')}
         />
         <StatCard
           icon={<Award className="w-8 h-8 text-yellow-600" />}
-          title="Avg. Score"
+          title="Điểm trung bình"
           value="78%"
           onClick={() => {}}
         />
@@ -97,23 +97,23 @@ export default function AdminDashboard() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Courses</h2>
+          <h2 className="text-xl font-semibold mb-4">Khóa học Gần đây</h2>
           <div className="space-y-4">
             {[
-              { title: 'React Fundamentals', students: 156 },
-              { title: 'JavaScript Advanced', students: 143 },
-              { title: 'Web Development', students: 128 },
+              { title: 'Nền tảng React', students: 156 },
+              { title: 'JavaScript Nâng cao', students: 143 },
+              { title: 'Phát triển Web', students: 128 },
             ].map((course, index) => (
               <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
                   <h3 className="font-medium">{course.title}</h3>
-                  <p className="text-sm text-gray-500">{course.students} students</p>
+                  <p className="text-sm text-gray-500">{course.students} học sinh</p>
                 </div>
                 <button
                   onClick={() => navigate('/admin/courses')}
                   className="text-blue-600 hover:text-blue-800"
                 >
-                  View Details
+                  Xem Chi tiết
                 </button>
               </div>
             ))}
@@ -122,29 +122,29 @@ export default function AdminDashboard() {
               className="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-800"
             >
               <Plus className="w-5 h-5" />
-              Add New Course
+              Thêm Khóa học Mới
             </button>
           </div>
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Exams</h2>
+          <h2 className="text-xl font-semibold mb-4">Bài kiểm tra Gần đây</h2>
           <div className="space-y-4">
             {[
-              { title: 'React Basics Test', attempts: 89 },
-              { title: 'JavaScript Quiz', attempts: 76 },
-              { title: 'Final Assessment', attempts: 45 },
+              { title: 'Kiểm tra Cơ bản về React', attempts: 89 },
+              { title: 'Quiz JavaScript', attempts: 76 },
+              { title: 'Đánh giá Cuối kỳ', attempts: 45 },
             ].map((exam, index) => (
               <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
                   <h3 className="font-medium">{exam.title}</h3>
-                  <p className="text-sm text-gray-500">{exam.attempts} attempts</p>
+                  <p className="text-sm text-gray-500">{exam.attempts} lần thử</p>
                 </div>
                 <button
                   onClick={() => navigate('/admin/exams')}
                   className="text-blue-600 hover:text-blue-800"
                 >
-                  View Details
+                  Xem Chi tiết
                 </button>
               </div>
             ))}
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
               className="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-800"
             >
               <Plus className="w-5 h-5" />
-              Create New Exam
+              Tạo Bài kiểm tra Mới
             </button>
           </div>
         </div>

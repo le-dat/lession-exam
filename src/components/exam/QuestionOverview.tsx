@@ -16,7 +16,7 @@ export default function QuestionOverview({
 }: QuestionOverviewProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-semibold mb-4">Question Overview</h3>
+      <h3 className="text-lg font-semibold mb-4">Tổng quan Câu hỏi</h3>
       <div className="grid grid-cols-5 gap-2">
         {questions.map((_, index) => (
           <button
@@ -40,30 +40,30 @@ export default function QuestionOverview({
       <div className="mt-6 space-y-3">
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-gray-100"></div>
-          <span>Not answered</span>
+          <span>Chưa trả lời</span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-blue-600"></div>
-          <span>Current question</span>
+          <span>Câu hỏi hiện tại</span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-green-100"></div>
-          <span>Correct answer</span>
+          <span>Trả lời đúng</span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-red-100"></div>
-          <span>Incorrect answer</span>
+          <span>Trả lời sai</span>
         </div>
       </div>
 
       <div className="mt-6 p-4 bg-blue-50 rounded-lg">
         <div className="flex items-center gap-2 text-blue-800">
           <AlertCircle className="w-5 h-5" />
-          <span className="font-medium">Exam Progress</span>
+          <span className="font-medium">Tiến độ Bài kiểm tra</span>
         </div>
         <div className="mt-2">
           <div className="text-sm text-gray-600">
-            {answers.filter(a => a !== null).length} of {questions.length} questions answered
+            {answers.filter(a => a !== null).length} trong số {questions.length} câu hỏi đã được trả lời
           </div>
           <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
             <div

@@ -16,16 +16,16 @@ export default function Navbar() {
   };
 
   const adminLinks = [
-    { path: '/admin', label: 'Dashboard', icon: <BarChart2 className="w-5 h-5" /> },
-    { path: '/admin/courses', label: 'Courses', icon: <BookOpen className="w-5 h-5" /> },
-    { path: '/admin/exams', label: 'Exams', icon: <FileText className="w-5 h-5" /> },
+    { path: '/admin', label: 'Trang chủ', icon: <BarChart2 className="w-5 h-5" /> },
+    { path: '/admin/courses', label: 'Khóa học', icon: <BookOpen className="w-5 h-5" /> },
+    { path: '/admin/exams', label: 'Kiểm tra', icon: <FileText className="w-5 h-5" /> },
   ];
 
   const userLinks = [
-    { path: '/dashboard', label: 'Dashboard', icon: <BarChart2 className="w-5 h-5" /> },
-    { path: '/lessons', label: 'Lessons', icon: <BookOpen className="w-5 h-5" /> },
-    { path: '/practice', label: 'Practice', icon: <FileText className="w-5 h-5" /> },
-    { path: '/exams', label: 'Exams', icon: <FileText className="w-5 h-5" /> },
+    { path: '/dashboard', label: 'Trang chủ', icon: <BarChart2 className="w-5 h-5" /> },
+    { path: '/lessons', label: 'Bài học', icon: <BookOpen className="w-5 h-5" /> },
+    { path: '/practice', label: 'Thực hành', icon: <FileText className="w-5 h-5" /> },
+    { path: '/exams', label: 'Kiểm tra', icon: <FileText className="w-5 h-5" /> },
   ];
 
   const activeLinks = userRole === 'admin' ? adminLinks : userLinks;
@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-blue-600">ExamPro</span>
+              <span className="text-xl font-bold text-blue-600">Ôn thi THPT môn Tin</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -73,7 +73,7 @@ export default function Navbar() {
                   className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors"
                 >
                   <LogOut className="w-5 h-5" />
-                  <span>Logout</span>
+                  <span>Đăng xuất</span>
                 </button>
               </div>
             ) : (
@@ -82,13 +82,13 @@ export default function Navbar() {
                   to="/login"
                   className="text-gray-700 hover:text-blue-600 transition-colors"
                 >
-                  Login
+                  Đăng nhập
                 </Link>
                 <Link
                   to="/register"
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Register
+                  Đăng kí
                 </Link>
               </div>
             )}
@@ -151,7 +151,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-red-600 hover:text-red-700 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />
-                    <span>Logout</span>
+                    <span>Đăng xuất</span>
                   </button>
                 </div>
               ) : (
@@ -161,14 +161,14 @@ export default function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-center text-gray-700 hover:text-blue-600 py-2 transition-colors"
                   >
-                    Login
+                    Đăng nhập
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    Register
+                    Đăng kí
                   </Link>
                 </div>
               )}

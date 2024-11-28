@@ -1,18 +1,18 @@
 export const examQuestions = [
   {
     id: 1,
-    question: 'What is React?',
+    question: 'React là gì?',
     options: [
-      'A JavaScript library for building user interfaces',
-      'A programming language',
-      'A database management system',
-      'An operating system',
+      'Một thư viện JavaScript để xây dựng giao diện người dùng',
+      'Một ngôn ngữ lập trình',
+      'Một hệ quản trị cơ sở dữ liệu',
+      'Một hệ điều hành',
     ],
     correctAnswer: 0,
   },
   {
     id: 2,
-    question: 'What hook is used for side effects in React?',
+    question: 'Hook nào được sử dụng cho các tác dụng phụ trong React?',
     options: [
       'useState',
       'useEffect',
@@ -23,7 +23,7 @@ export const examQuestions = [
   },
   {
     id: 3,
-    question: 'Which of the following is NOT a React Hook?',
+    question: 'Cái nào sau đây KHÔNG phải là một React Hook?',
     options: [
       'useRef',
       'useCallback',

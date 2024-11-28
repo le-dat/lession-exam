@@ -8,17 +8,17 @@ export default function Practice() {
 
   const questions = [
     {
-      question: 'What is React?',
+      question: 'React là gì?',
       options: [
-        'A JavaScript library for building user interfaces',
-        'A programming language',
-        'A database management system',
-        'An operating system',
+        'Một thư viện JavaScript để xây dựng giao diện người dùng',
+        'Một ngôn ngữ lập trình',
+        'Một hệ quản trị cơ sở dữ liệu',
+        'Một hệ điều hành',
       ],
       correctAnswer: 0,
     },
     {
-      question: 'What hook is used for side effects in React?',
+      question: 'Hook nào được sử dụng cho các tác dụng phụ trong React?',
       options: [
         'useState',
         'useEffect',
@@ -42,12 +42,12 @@ export default function Practice() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Practice Questions</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Câu hỏi ôn tập</h1>
 
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="mb-8">
           <span className="text-sm text-gray-500">
-            Question {currentQuestion + 1} of {questions.length}
+            Câu {currentQuestion + 1} / {questions.length}
           </span>
           <h2 className="text-xl font-semibold mt-2">
             {questions[currentQuestion].question}
@@ -90,7 +90,7 @@ export default function Practice() {
               onClick={handleNext}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
             >
-              Next Question
+              Câu tiếp theo
             </button>
           </div>
         )}

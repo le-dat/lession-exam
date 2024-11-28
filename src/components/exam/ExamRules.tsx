@@ -5,29 +5,29 @@ export default function ExamRules() {
   const rules = [
     {
       icon: <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />,
-      title: 'Time Limit',
-      description: 'Once started, the exam timer cannot be paused or extended.'
+      title: 'Giới hạn Thời gian',
+      description: 'Khi đã bắt đầu, bộ đếm thời gian của bài kiểm tra không thể tạm dừng hoặc kéo dài.'
     },
     {
       icon: <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" />,
-      title: 'No Going Back',
-      description: 'Questions must be answered in order. You cannot return to previous questions.'
+      title: 'Không Quay Lại',
+      description: 'Các câu hỏi phải được trả lời theo thứ tự. Bạn không thể quay lại các câu hỏi trước đó.'
     },
     {
       icon: <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />,
-      title: 'Browser Restrictions',
-      description: 'Leaving the exam window or refreshing the page may void your attempt.'
+      title: 'Hạn chế Trình duyệt',
+      description: 'Rời khỏi cửa sổ bài kiểm tra hoặc làm mới trang có thể làm vô hiệu hóa lần thử của bạn.'
     },
     {
       icon: <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />,
-      title: 'Results',
-      description: 'Your score will be displayed immediately after completion.'
+      title: 'Kết quả',
+      description: 'Điểm số của bạn sẽ được hiển thị ngay sau khi hoàn thành.'
     }
   ];
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Exam Rules</h2>
+      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Quy tắc Bài kiểm tra</h2>
       <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
         {rules.map((rule, index) => (
           <div key={index} className="flex gap-3 sm:gap-4">

@@ -24,7 +24,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         userRole: 'admin',
         user: {
           id: '1',
-          name: 'Admin User',
+          name: 'Tài khoản quản trị',
           email: 'admin@example.com',
         },
       });
@@ -34,7 +34,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         userRole: 'user',
         user: {
           id: '2',
-          name: 'Regular User',
+          name: '',
           email: email,
         },
       });

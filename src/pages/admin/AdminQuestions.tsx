@@ -5,34 +5,34 @@ export default function AdminQuestions() {
   const questions = [
     {
       id: 1,
-      question: 'What is React?',
-      type: 'Multiple Choice',
-      difficulty: 'Easy',
-      lesson: 'Introduction to React',
+      question: 'React là gì?',
+      type: 'Trắc nghiệm',
+      difficulty: 'Dễ',
+      lesson: 'Giới thiệu về React',
     },
     {
       id: 2,
-      question: 'Explain useState Hook',
-      type: 'Multiple Choice',
-      difficulty: 'Medium',
+      question: 'Giải thích Hook useState',
+      type: 'Trắc nghiệm',
+      difficulty: 'Trung bình',
       lesson: 'React Hooks',
     },
     {
       id: 3,
-      question: 'What is Redux?',
-      type: 'Multiple Choice',
-      difficulty: 'Hard',
-      lesson: 'State Management',
+      question: 'Redux là gì?',
+      type: 'Trắc nghiệm',
+      difficulty: 'Khó',
+      lesson: 'Quản lý trạng thái',
     },
   ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Questions</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Quản lý câu hỏi</h1>
         <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
           <Plus className="w-5 h-5" />
-          Add Question
+          Thêm câu hỏi
         </button>
       </div>
 
@@ -41,19 +41,19 @@ export default function AdminQuestions() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Question
+                Câu hỏi
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Type
+                Loại
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Difficulty
+                Độ khó
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Lesson
+                Bài học
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                Hành động
               </th>
             </tr>
           </thead>

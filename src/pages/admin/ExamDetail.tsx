@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Clock, Target, FileText, Plus, Edit, Trash2 } from 'lucide-react';
-import QuestionModal from '../../components/modals/QuestionModal';
-import DeleteConfirmModal from '../../components/modals/DeleteConfirmModal';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Clock, Target, FileText, Plus, Edit, Trash2 } from "lucide-react";
+import QuestionModal from "../../components/modals/QuestionModal";
+import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
+import { motion } from "framer-motion";
 
 interface Question {
   id: number;
   question: string;
   options: string[];
   correctAnswer: number;
-  type: 'Multiple Choice' | 'True/False';
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  type: "Multiple Choice" | "True/False";
+  difficulty: "Easy" | "Medium" | "Hard";
   explanation?: string;
 }
 
@@ -23,33 +23,35 @@ export default function ExamDetail() {
 
   const exam = {
     id: 1,
-    title: 'React Fundamentals Test',
-    description: 'Test your knowledge of React basics',
-    duration: '45 minutes',
+    title: "Kiểm tra Kiến thức Cơ bản về React",
+    description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản của React",
+    duration: "45 phút",
     passingScore: 70,
     questions: [
       {
         id: 1,
-        question: 'What is React?',
+        question: "React là gì?",
         options: [
-          'A JavaScript library for building user interfaces',
-          'A programming language',
-          'A database management system',
-          'An operating system'
+          "Một thư viện JavaScript để xây dựng giao diện người dùng",
+          "Một ngôn ngữ lập trình",
+          "Một hệ quản trị cơ sở dữ liệu",
+          "Một hệ điều hành",
         ],
         correctAnswer: 0,
-        type: 'Multiple Choice',
-        difficulty: 'Easy',
-        explanation: 'React is a JavaScript library developed by Facebook for building user interfaces.'
+        type: "Multiple Choice",
+        difficulty: "Easy",
+        explanation:
+          "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
       },
       {
         id: 2,
-        question: 'Is React a framework?',
-        options: ['True', 'False'],
+        question: "React có phải là một framework không?",
+        options: ["Đúng", "Sai"],
         correctAnswer: 1,
-        type: 'True/False',
-        difficulty: 'Easy',
-        explanation: 'React is a library, not a framework. It focuses on UI components.'
+        type: "True/False",
+        difficulty: "Dễ",
+        explanation:
+          "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
       },
     ] as Question[],
   };
@@ -66,9 +68,9 @@ export default function ExamDetail() {
 
   const handleQuestionSubmit = (questionData: Partial<Question>) => {
     if (selectedQuestion) {
-      console.log('Updating question:', questionData);
+      console.log("Cập nhật câu hỏi:", questionData);
     } else {
-      console.log('Creating question:', questionData);
+      console.log("Thêm câu hỏi:", questionData);
     }
     setIsQuestionModalOpen(false);
     setSelectedQuestion(null);
@@ -76,7 +78,7 @@ export default function ExamDetail() {
 
   const handleConfirmDelete = () => {
     if (selectedQuestion) {
-      console.log('Deleting question:', selectedQuestion.id);
+      console.log("Xóa câu hỏi:", selectedQuestion.id);
     }
     setIsDeleteModalOpen(false);
     setSelectedQuestion(null);
@@ -101,7 +103,7 @@ export default function ExamDetail() {
                 Add Question
               </button>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-gray-400" />
@@ -109,11 +111,11 @@ export default function ExamDetail() {
               </div>
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-gray-400" />
-                <span>Pass: {exam.passingScore}%</span>
+                <span>Đúng: {exam.passingScore}%</span>
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-gray-400" />
-                <span>{exam.questions.length} questions</span>
+                <span>{exam.questions.length} câu hỏi</span>
               </div>
             </div>
           </div>
@@ -128,7 +130,7 @@ export default function ExamDetail() {
                 className="bg-white rounded-lg shadow-sm p-6"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-semibold">Question {index + 1}</h3>
+                  <h3 className="text-lg font-semibold">Câu {index + 1}</h3>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEditQuestion(question)}
@@ -155,8 +157,8 @@ export default function ExamDetail() {
                       key={optionIndex}
                       className={`p-3 rounded-lg ${
                         optionIndex === question.correctAnswer
-                          ? 'bg-green-50 border border-green-200'
-                          : 'bg-gray-50 border border-gray-200'
+                          ? "bg-green-50 border border-green-200"
+                          : "bg-gray-50 border border-gray-200"
                       }`}
                     >
                       {option}
@@ -165,11 +167,15 @@ export default function ExamDetail() {
                 </div>
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
-                  <span className={`px-2 py-1 rounded ${
-                    question.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
-                    question.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded ${
+                      question.difficulty === "Easy"
+                        ? "bg-green-100 text-green-800"
+                        : question.difficulty === "Medium"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {question.difficulty}
                   </span>
                   <span>{question.type}</span>
@@ -188,41 +194,43 @@ export default function ExamDetail() {
         {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-            <h2 className="text-xl font-semibold mb-4">Question Summary</h2>
+            <h2 className="text-xl font-semibold mb-4">Tóm tắt Câu hỏi</h2>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
-                  <span>Total Questions</span>
+                  <span>Tổng số Câu hỏi</span>
                   <span>{exam.questions.length}</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Easy</span>
-                    <span>{exam.questions.filter(q => q.difficulty === 'Easy').length}</span>
+                    <span>Dễ</span>
+                    <span>{exam.questions.filter((q) => q.difficulty === "Easy").length}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Medium</span>
-                    <span>{exam.questions.filter(q => q.difficulty === 'Medium').length}</span>
+                    <span>Trung bình</span>
+                    <span>
+                      {exam.questions.filter((q) => q.difficulty === "Medium").length}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Hard</span>
-                    <span>{exam.questions.filter(q => q.difficulty === 'Hard').length}</span>
+                    <span>Khó</span>
+                    <span>{exam.questions.filter((q) => q.difficulty === "Hard").length}</span>
                   </div>
                 </div>
               </div>
 
               <div className="border-t pt-4">
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
-                  <span>Question Types</span>
+                  <span>Loại Câu hỏi</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Multiple Choice</span>
-                    <span>{exam.questions.filter(q => q.type === 'Multiple Choice').length}</span>
+                    <span>Trắc nghiệm</span>
+                    <span>{exam.questions.filter((q) => q.type === "Multiple Choice").length}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>True/False</span>
-                    <span>{exam.questions.filter(q => q.type === 'True/False').length}</span>
+                    <span>Đúng/Sai</span>
+                    <span>{exam.questions.filter((q) => q.type === "True/False").length}</span>
                   </div>
                 </div>
               </div>

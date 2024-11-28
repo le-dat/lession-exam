@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useAuthStore } from '../store/authStore';
-import { LogIn, Mail, Lock, ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useAuthStore } from "../store/authStore";
+import { LogIn, Mail, Lock, ArrowRight } from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
+  const { login, userRole } = useAuthStore();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await login(email, password);
-    navigate('/dashboard');
+    setTimeout(() => {
+      navigate(userRole === "admin"? "/admin" : "/dashboard");
+    }, 1000);
   };
 
   return (
@@ -35,12 +38,12 @@ export default function Login() {
           </div>
         </motion.div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Welcome back
+          Chào mừng trở lại
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
+          Bạn chưa có tài khoản?{" "}
           <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
-            Sign up for free
+            Đăng ký miễn phí
           </Link>
         </p>
       </motion.div>
@@ -55,7 +58,7 @@ export default function Login() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+                Địa chỉ email
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -77,7 +80,7 @@ export default function Login() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
+                Mật khẩu
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -92,7 +95,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your password"
+                  placeholder="Nhập mật khẩu"
                 />
               </div>
             </div>
@@ -125,7 +128,7 @@ export default function Login() {
                 <span className="absolute right-3 inset-y-0 flex items-center">
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </span>
-                Sign in
+                Đăng nhập
               </button>
             </div>
           </form>

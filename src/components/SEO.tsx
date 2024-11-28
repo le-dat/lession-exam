@@ -10,9 +10,9 @@ interface SEOProps {
 }
 
 export default function SEO({
-  title = 'ExamPro - Professional Learning Platform',
-  description = 'Enhance your skills with our interactive courses and professional certification exams',
-  keywords = 'online learning, courses, exams, education, e-learning',
+  title = 'ExamPro - Nền tảng học tập chuyên nghiệp',
+  description = 'Nâng cao kỹ năng của bạn với các khóa học tương tác và kỳ thi chứng chỉ chuyên nghiệp của chúng tôi',
+  keywords = 'học trực tuyến, khóa học, kỳ thi, giáo dục, học trực tuyến',
   image = '/og-image.jpg',
   url = window.location.href,
 }: SEOProps) {

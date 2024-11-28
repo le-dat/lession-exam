@@ -9,31 +9,31 @@ export default function Exams() {
   const exams = [
     {
       id: 1,
-      title: 'React Fundamentals Test',
-      description: 'Test your knowledge of React basics and core concepts',
-      duration: '45 mins',
+      title: 'Kiểm tra Kiến thức Cơ bản về React',
+      description: 'Kiểm tra kiến thức của bạn về các khái niệm cơ bản và cốt lõi của React',
+      duration: '45 phút',
       questions: 20,
-      difficulty: 'Beginner',
+      difficulty: 'Người mới bắt đầu',
       attempts: 2,
       bestScore: 85,
     },
     {
       id: 2,
-      title: 'JavaScript Advanced Exam',
-      description: 'Comprehensive test on advanced JavaScript concepts',
-      duration: '60 mins',
+      title: 'Bài kiểm tra Nâng cao về JavaScript',
+      description: 'Bài kiểm tra toàn diện về các khái niệm nâng cao của JavaScript',
+      duration: '60 phút',
       questions: 25,
-      difficulty: 'Advanced',
+      difficulty: 'Nâng cao',
       attempts: 1,
       bestScore: 78,
     },
     {
       id: 3,
-      title: 'Web Development Final',
-      description: 'Final assessment covering all web development topics',
-      duration: '90 mins',
+      title: 'Bài kiểm tra Cuối kỳ Phát triển Web',
+      description: 'Đánh giá cuối cùng bao gồm tất cả các chủ đề phát triển web',
+      duration: '90 phút',
       questions: 40,
-      difficulty: 'Intermediate',
+      difficulty: 'Trung cấp',
       attempts: 0,
       bestScore: null,
     },
@@ -46,13 +46,13 @@ export default function Exams() {
   return (
     <>
       <SEO 
-        title="Available Exams - Learning Platform"
-        description="Take practice tests and assessments to evaluate your knowledge"
-        keywords="online exams, practice tests, assessments, learning evaluation"
+        title="Các Bài Kiểm tra Có sẵn - Nền tảng Học tập"
+        description="Thực hiện các bài kiểm tra và đánh giá để đánh giá kiến thức của bạn"
+        keywords="bài kiểm tra trực tuyến, bài kiểm tra thực hành, đánh giá, đánh giá học tập"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 lg:mb-8">Available Exams</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 lg:mb-8">Các Bài Kiểm tra Có sẵn</h1>
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {exams.map((exam, index) => (
@@ -70,8 +70,8 @@ export default function Exams() {
                     <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
                   </div>
                   <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
-                    exam.difficulty === 'Beginner' ? 'bg-green-100 text-green-800' :
-                    exam.difficulty === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                    exam.difficulty === 'Người mới bắt đầu' ? 'bg-green-100 text-green-800' :
+                    exam.difficulty === 'Trung cấp' ? 'bg-yellow-100 text-yellow-800' :
                     'bg-red-100 text-red-800'
                   }`}>
                     {exam.difficulty}
@@ -88,7 +88,7 @@ export default function Exams() {
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>{exam.questions} questions</span>
+                    <span>{exam.questions} câu hỏi</span>
                   </div>
                 </div>
 
@@ -96,7 +96,7 @@ export default function Exams() {
                   <div className="mb-3 sm:mb-4">
                     <div className="flex items-center gap-1 sm:gap-2 mb-1">
                       <Award className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
-                      <span className="text-xs sm:text-sm text-gray-600">Best Score: {exam.bestScore}%</span>
+                      <span className="text-xs sm:text-sm text-gray-600">Điểm cao nhất: {exam.bestScore}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
                       <div
@@ -109,11 +109,11 @@ export default function Exams() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-xs sm:text-sm text-gray-500">
-                    {exam.attempts} {exam.attempts === 1 ? 'attempt' : 'attempts'} remaining
+                    {exam.attempts} {exam.attempts === 1 ? 'lần thử' : 'lần thử'} còn lại
                   </span>
                   <div className="flex items-center gap-1 sm:gap-2 text-blue-600 text-sm sm:text-base">
                     <Play className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>View Details</span>
+                    <span>Xem Chi tiết</span>
                   </div>
                 </div>
               </div>

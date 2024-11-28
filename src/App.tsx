@@ -42,7 +42,6 @@ function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="pb-8 sm:pb-12 lg:pb-16"
               >
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
@@ -52,10 +51,10 @@ function App() {
                   {isAuthenticated && userRole === "admin" && (
                     <>
                       <Route path="/admin" element={<AdminDashboard />} />
-                      <Route path="/admin/courses" element={<AdminCourses />} />
                       <Route path="/admin/courses/:id" element={<CourseDetail />} />
-                      <Route path="/admin/exams" element={<AdminExams />} />
+                      <Route path="/admin/courses" element={<AdminCourses />} />
                       <Route path="/admin/exams/:id" element={<AdminExamDetail />} />
+                      <Route path="/admin/exams" element={<AdminExams />} />
                       <Route path="/admin/analytics" element={<AdminAnalytics />} />
                     </>
                   )}
@@ -63,8 +62,8 @@ function App() {
                   {isAuthenticated && userRole === "user" && (
                     <>
                       <Route path="/dashboard" element={<UserDashboard />} />
-                      <Route path="/lessons" element={<UserLessons />} />
                       <Route path="/lessons/:id" element={<LessonDetail />} />
+                      <Route path="/lessons" element={<UserLessons />} />
                       <Route path="/practice" element={<Practice />} />
                       <Route path="/exams/:id/take" element={<ExamDetailTake />} />
                       <Route path="/exams/:id" element={<ExamDetail />} />

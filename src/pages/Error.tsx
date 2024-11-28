@@ -22,7 +22,7 @@ export default function Error() {
         >
           <AlertCircle className="w-16 h-16 text-red-600" />
         </motion.div>
-        <h1 className="text-2xl font-semibold text-gray-900 mt-6">Oops! Something went wrong</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 mt-6">Oops! Có lỗi</h1>
         <p className="text-gray-600 mt-2 mb-8">
           {error.statusText || error.message || "An unexpected error occurred"}
         </p>
@@ -38,7 +38,7 @@ export default function Error() {
             to="/"
             className="inline-flex items-center gap-2 bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition"
           >
-            Back to Home
+            Quay về trang chủ
           </Link>
         </div>
       </motion.div>

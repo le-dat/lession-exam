@@ -7,23 +7,23 @@ export default function UserLessons() {
   const lessons = [
     {
       id: 1,
-      title: 'Introduction to React',
-      description: 'Learn the basics of React and its core concepts',
-      duration: '45 mins',
+      title: 'Giới thiệu về React',
+      description: 'Tìm hiểu các khái niệm cơ bản của React',
+      duration: '45 phút',
       progress: 100,
     },
     {
       id: 2,
-      title: 'State Management',
-      description: 'Understanding state and props in React applications',
-      duration: '60 mins',
+      title: 'Quản lý trạng thái',
+      description: 'Hiểu về state và props trong ứng dụng React',
+      duration: '60 phút',
       progress: 75,
     },
     {
       id: 3,
       title: 'React Hooks',
-      description: 'Modern React development using hooks',
-      duration: '50 mins',
+      description: 'Phát triển React hiện đại sử dụng hooks',
+      duration: '50 phút',
       progress: 0,
     },
   ];
@@ -34,7 +34,7 @@ export default function UserLessons() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Available Lessons</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Bài học có sẵn</h1>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {lessons.map((lesson) => (
@@ -57,11 +57,11 @@ export default function UserLessons() {
                     style={{ width: `${lesson.progress}%` }}
                   ></div>
                 </div>
-                <span className="text-sm text-gray-500">{lesson.progress}% complete</span>
+                <span className="text-sm text-gray-500">{lesson.progress}% hoàn thành</span>
               </div>
               <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                 <Play className="w-5 h-5" />
-                {lesson.progress === 0 ? 'Start Lesson' : 'Continue'}
+                {lesson.progress === 0 ? 'Bắt đầu' : 'Tiếp tục'}
               </button>
             </div>
           </div>

@@ -1,42 +1,42 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { BookOpen, Clock, Users, CheckCircle } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { BookOpen, Clock, Users, CheckCircle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 const lessonContent = `
-# Introduction to React
+# Giới thiệu về React
 
-React is a JavaScript library for building user interfaces. It lets you compose complex UIs from small and isolated pieces of code called "components".
+React là một thư viện JavaScript để xây dựng giao diện người dùng. Nó cho phép bạn tạo ra các giao diện phức tạp từ các mảnh mã nhỏ và độc lập gọi là "components".
 
-## Key Concepts
+## Các khái niệm chính
 
 1. **Components**
-   - Building blocks of React applications
-   - Can be class-based or functional
-   - Reusable and composable
+   - Các khối xây dựng của ứng dụng React
+   - Có thể là class-based hoặc functional
+   - Có thể tái sử dụng và kết hợp
 
 2. **Props**
-   - Pass data between components
-   - Read-only
-   - Help make components reusable
+   - Truyền dữ liệu giữa các components
+   - Chỉ đọc
+   - Giúp làm cho các components có thể tái sử dụng
 
 3. **State**
-   - Internal component data
-   - Can be modified using setState
-   - Changes trigger re-renders
+   - Dữ liệu nội bộ của component
+   - Có thể được thay đổi bằng cách sử dụng setState
+   - Thay đổi sẽ kích hoạt re-renders
 
-## Example Code
+## Mã ví dụ
 
 \`\`\`jsx
 function Welcome(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return <h1>Xin chào, {props.name}</h1>;
 }
 \`\`\`
 
-## Practice Exercise
+## Bài tập thực hành
 
-Try creating a simple component that displays a greeting message using the concepts learned above.
+Hãy thử tạo một component đơn giản hiển thị thông điệp chào mừng sử dụng các khái niệm đã học ở trên.
 `;
 
 export default function LessonDetail() {
@@ -58,9 +58,7 @@ export default function LessonDetail() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <ReactMarkdown className="prose max-w-none">
-                {lessonContent}
-              </ReactMarkdown>
+              <ReactMarkdown className="prose max-w-none">{lessonContent}</ReactMarkdown>
             </motion.div>
           </div>
         </div>
@@ -73,19 +71,19 @@ export default function LessonDetail() {
             transition={{ delay: 0.3 }}
             className="bg-white rounded-lg shadow-sm p-6"
           >
-            <h2 className="text-xl font-semibold mb-4">Lesson Info</h2>
+            <h2 className="text-xl font-semibold mb-4">Thông tin bài học</h2>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-gray-400" />
-                <span>45 minutes</span>
+                <span>45 phút</span>
               </div>
               <div className="flex items-center gap-3">
                 <Users className="w-5 h-5 text-gray-400" />
-                <span>156 students enrolled</span>
+                <span>156 học viên đã đăng ký</span>
               </div>
               <div className="flex items-center gap-3">
                 <BookOpen className="w-5 h-5 text-gray-400" />
-                <span>Beginner level</span>
+                <span>Trình độ người mới bắt đầu</span>
               </div>
             </div>
           </motion.div>
@@ -96,16 +94,16 @@ export default function LessonDetail() {
             transition={{ delay: 0.4 }}
             className="bg-white rounded-lg shadow-sm p-6"
           >
-            <h2 className="text-xl font-semibold mb-4">Your Progress</h2>
+            <h2 className="text-xl font-semibold mb-4">Tiến độ của bạn</h2>
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-500" />
-                <span>Introduction completed</span>
+                <span>Giới thiệu đã hoàn thành</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div className="bg-blue-600 rounded-full h-2 w-3/4"></div>
               </div>
-              <span className="text-sm text-gray-500">75% complete</span>
+              <span className="text-sm text-gray-500">Hoàn thành 75%</span>
             </div>
           </motion.div>
         </div>
