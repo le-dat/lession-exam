@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
@@ -28,7 +28,11 @@ const Exams = React.lazy(() => import("./pages/user/Exams"));
 import { useAuthStore } from "./store/authStore";
 
 function App() {
-  const { isAuthenticated, userRole } = useAuthStore();
+  const { isAuthenticated, userRole, setUserFromLocalStorage } = useAuthStore();
+
+  useEffect(() => {
+    setUserFromLocalStorage();
+  }, [setUserFromLocalStorage]);
 
   return (
     <HelmetProvider>

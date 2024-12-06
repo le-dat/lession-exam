@@ -171,17 +171,31 @@ export default function QuestionModal({ isOpen, onClose, question, onSubmit }: Q
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                 required
               >
-                <option value="Easy">Dễ</option>
-                <option value="Medium">Trung bình</option>
-                <option value="Hard">Khó</option>
+                <option value="Easy">Biết</option>
+                <option value="Medium">Hiểu</option>
+                <option value="Hard">Vận dụng</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Giải thích (tùy chọn)
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Độ khó</label>
+            <select
+              value={formData.difficulty}
+              onChange={(e) =>
+                setFormData({ ...formData, difficulty: e.target.value as Question["difficulty"] })
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+              required
+            >
+              <option value="Easy">ac1</option>
+              <option value="Medium">ac2</option>
+              <option value="Hard">ac3</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Giải thích (tùy chọn)</label>
             <textarea
               value={formData.explanation}
               onChange={(e) => setFormData({ ...formData, explanation: e.target.value })}

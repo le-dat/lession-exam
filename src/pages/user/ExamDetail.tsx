@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Clock, FileText, Award, AlertCircle, Play, Menu } from "lucide-react";
 import { motion } from "framer-motion";
@@ -8,40 +8,67 @@ import ExamRules from "../../components/exam/ExamRules";
 import SampleQuestions from "../../components/exam/SampleQuestions";
 import MobileSidebar from "../../components/layout/MobileSidebar";
 
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  type: "Multiple Choice" | "True/False";
+  difficulty: "Easy" | "Medium" | "Hard";
+  explanation?: string;
+}
+
 export default function ExamDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [exam, setExam] = useState(() => {
+    const savedExam = localStorage.getItem("exams");
+    return savedExam
+      ? JSON.parse(savedExam)?.find((e: { id: number }) => e.id === Number(id))
+      : {
+          id: 1,
+          title: "Kiểm tra Kiến thức Cơ bản về React",
+          description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản của React",
+          duration: "45 phút",
+          passingScore: 70,
+          questions: [
+            {
+              id: 1,
+              question: "React là gì?",
+              options: [
+                "Một thư viện JavaScript để xây dựng giao diện người dùng",
+                "Một ngôn ngữ lập trình",
+                "Một hệ quản trị cơ sở dữ liệu",
+                "Một hệ điều hành",
+              ],
+              correctAnswer: 0,
+              type: "Multiple Choice",
+              difficulty: "Easy",
+              explanation:
+                "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
+            },
+            {
+              id: 2,
+              question: "React có phải là một framework không?",
+              options: ["Đúng", "Sai"],
+              correctAnswer: 1,
+              type: "True/False",
+              difficulty: "Biết",
+              explanation:
+                "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
+            },
+          ] as Question[],
+        };
+  });
 
-  // Dữ liệu giả - thay thế bằng API call
-  const exam = {
-    id: Number(id),
-    title: "Kiểm tra Kiến thức Cơ bản về React",
-    description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản và cốt lõi của React",
-    duration: "45 phút",
-    questions: 20,
-    difficulty: "Người mới bắt đầu",
-    attempts: 2,
-    bestScore: 85,
-    passingScore: 70,
-    sampleQuestions: [
-      {
-        id: 1,
-        question: "React là gì?",
-        options: [
-          "Một thư viện JavaScript để xây dựng giao diện người dùng",
-          "Một ngôn ngữ lập trình",
-          "Một hệ quản trị cơ sở dữ liệu",
-          "Một hệ điều hành",
-        ],
-      },
-      {
-        id: 2,
-        question: "Hook nào được sử dụng cho các tác dụng phụ trong React?",
-        options: ["useState", "useEffect", "useContext", "useReducer"],
-      },
-    ],
-  };
+  useEffect(() => {
+    const savedExam = localStorage.getItem("exam");
+    if (savedExam) {
+      const parsedExam = JSON.parse(savedExam);
+      setExam(parsedExam);
+    }
+  }, [id]);
 
   const handleStartExam = () => {
     navigate(`/exams/${id}/take`);
@@ -85,7 +112,7 @@ export default function ExamDetail() {
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span>{exam.questions} câu hỏi</span>
+                  <span>{exam?.questions?.length} câu hỏi</span>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                   <Award className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -98,7 +125,7 @@ export default function ExamDetail() {
               </div>
             </motion.div>
             <ExamRules />
-            <SampleQuestions questions={exam.sampleQuestions} />
+            <SampleQuestions questions={exam.questions} />
           </div>
 
           {/* Desktop Sidebar */}

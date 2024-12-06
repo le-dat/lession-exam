@@ -1,28 +1,28 @@
-import React from 'react';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import React from "react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 
 export default function AdminQuestions() {
   const questions = [
     {
       id: 1,
-      question: 'React là gì?',
-      type: 'Trắc nghiệm',
-      difficulty: 'Dễ',
-      lesson: 'Giới thiệu về React',
+      question: "React là gì?",
+      type: "Trắc nghiệm",
+      difficulty: "Biết",
+      lesson: "Giới thiệu về React",
     },
     {
       id: 2,
-      question: 'Giải thích Hook useState',
-      type: 'Trắc nghiệm',
-      difficulty: 'Trung bình',
-      lesson: 'React Hooks',
+      question: "Giải thích Hook useState",
+      type: "Trắc nghiệm",
+      difficulty: "Hiểu",
+      lesson: "React Hooks",
     },
     {
       id: 3,
-      question: 'Redux là gì?',
-      type: 'Trắc nghiệm',
-      difficulty: 'Khó',
-      lesson: 'Quản lý trạng thái',
+      question: "Redux là gì?",
+      type: "Trắc nghiệm",
+      difficulty: "Vận dụng",
+      lesson: "Quản lý trạng thái",
     },
   ];
 
@@ -47,7 +47,7 @@ export default function AdminQuestions() {
                 Loại
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Độ khó
+                Độ Vận dụng
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Bài học

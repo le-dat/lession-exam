@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Clock, Target, FileText, Plus, Edit, Trash2 } from "lucide-react";
 import QuestionModal from "../../components/modals/QuestionModal";
@@ -20,41 +20,54 @@ export default function ExamDetail() {
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
+  const [exam, setExam] = useState(() => {
+    const savedExam = localStorage.getItem("exams");
+    return savedExam
+      ? JSON.parse(savedExam)?.find((e: { id: number }) => e.id === Number(id))
+      : {
+          id: 1,
+          title: "Kiểm tra Kiến thức Cơ bản về React",
+          description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản của React",
+          duration: "45 phút",
+          passingScore: 70,
+          questions: [
+            {
+              id: 1,
+              question: "React là gì?",
+              options: [
+                "Một thư viện JavaScript để xây dựng giao diện người dùng",
+                "Một ngôn ngữ lập trình",
+                "Một hệ quản trị cơ sở dữ liệu",
+                "Một hệ điều hành",
+              ],
+              correctAnswer: 0,
+              type: "Multiple Choice",
+              difficulty: "Easy",
+              explanation:
+                "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
+            },
+            {
+              id: 2,
+              question: "React có phải là một framework không?",
+              options: ["Đúng", "Sai"],
+              correctAnswer: 1,
+              type: "True/False",
+              difficulty: "Biết",
+              explanation:
+                "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
+            },
+          ] as Question[],
+        };
+  });
 
-  const exam = {
-    id: 1,
-    title: "Kiểm tra Kiến thức Cơ bản về React",
-    description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản của React",
-    duration: "45 phút",
-    passingScore: 70,
-    questions: [
-      {
-        id: 1,
-        question: "React là gì?",
-        options: [
-          "Một thư viện JavaScript để xây dựng giao diện người dùng",
-          "Một ngôn ngữ lập trình",
-          "Một hệ quản trị cơ sở dữ liệu",
-          "Một hệ điều hành",
-        ],
-        correctAnswer: 0,
-        type: "Multiple Choice",
-        difficulty: "Easy",
-        explanation:
-          "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
-      },
-      {
-        id: 2,
-        question: "React có phải là một framework không?",
-        options: ["Đúng", "Sai"],
-        correctAnswer: 1,
-        type: "True/False",
-        difficulty: "Dễ",
-        explanation:
-          "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
-      },
-    ] as Question[],
-  };
+  useEffect(() => {
+    const savedExam = localStorage.getItem("exams");
+    const parsedExam = savedExam
+      ? JSON.parse(savedExam)?.map((item: any) => (item.id === Number(id) ? exam : item))
+      : null;
+
+    localStorage.setItem("exams", JSON.stringify(parsedExam));
+  }, [exam]);
 
   const handleEditQuestion = (question: Question) => {
     setSelectedQuestion(question);
@@ -67,18 +80,24 @@ export default function ExamDetail() {
   };
 
   const handleQuestionSubmit = (questionData: Partial<Question>) => {
-    if (selectedQuestion) {
-      console.log("Cập nhật câu hỏi:", questionData);
-    } else {
-      console.log("Thêm câu hỏi:", questionData);
-    }
+    setExam((prevExam: { questions: Question[] }) => {
+      const updatedQuestions: Question[] = selectedQuestion
+        ? prevExam.questions.map((q: Question) =>
+            q.id === selectedQuestion.id ? { ...q, ...questionData } : q
+          )
+        : [...prevExam.questions, { ...questionData, id: Date.now() } as Question];
+      return { ...prevExam, questions: updatedQuestions };
+    });
     setIsQuestionModalOpen(false);
     setSelectedQuestion(null);
   };
 
   const handleConfirmDelete = () => {
     if (selectedQuestion) {
-      console.log("Xóa câu hỏi:", selectedQuestion.id);
+      setExam((prevExam: { questions: Question[] }) => ({
+        ...prevExam,
+        questions: prevExam.questions.filter((q: Question) => q.id !== selectedQuestion.id),
+      }));
     }
     setIsDeleteModalOpen(false);
     setSelectedQuestion(null);
@@ -121,7 +140,7 @@ export default function ExamDetail() {
           </div>
 
           <div className="mt-8 space-y-6">
-            {exam.questions.map((question, index) => (
+            {exam.questions.map((question: Question, index: number) => (
               <motion.div
                 key={question.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -203,18 +222,22 @@ export default function ExamDetail() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Dễ</span>
-                    <span>{exam.questions.filter((q) => q.difficulty === "Easy").length}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Trung bình</span>
+                    <span>Biết</span>
                     <span>
-                      {exam.questions.filter((q) => q.difficulty === "Medium").length}
+                      {exam.questions.filter((q: Question) => q.difficulty === "Easy").length}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Khó</span>
-                    <span>{exam.questions.filter((q) => q.difficulty === "Hard").length}</span>
+                    <span>Hiểu</span>
+                    <span>
+                      {exam.questions.filter((q: Question) => q.difficulty === "Medium").length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Vận dụng</span>
+                    <span>
+                      {exam.questions.filter((q: Question) => q.difficulty === "Hard").length}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -226,11 +249,15 @@ export default function ExamDetail() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Trắc nghiệm</span>
-                    <span>{exam.questions.filter((q) => q.type === "Multiple Choice").length}</span>
+                    <span>
+                      {exam.questions.filter((q: Question) => q.type === "Multiple Choice").length}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Đúng/Sai</span>
-                    <span>{exam.questions.filter((q) => q.type === "True/False").length}</span>
+                    <span>
+                      {exam.questions.filter((q: Question) => q.type === "True/False").length}
+                    </span>
                   </div>
                 </div>
               </div>

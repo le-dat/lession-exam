@@ -1,43 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FileText, Clock, Award, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "../../components/SEO";
 
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  type: "Multiple Choice" | "True/False";
+  difficulty: "Easy" | "Medium" | "Hard";
+  explanation?: string;
+}
+
 export default function Exams() {
   const navigate = useNavigate();
-  const exams = [
+  const [exams, setExams] = useState([
     {
       id: 1,
       title: "Khái niệm Trí tuệ nhân tạo (AI)",
       description: "AI là khả năng máy tính thực hiện các công việc trí tuệ như con người.",
       duration: "45 phút",
-      questions: 20,
       difficulty: "Người mới bắt đầu",
       attempts: 2,
       bestScore: 85,
+      questions: [
+        {
+          id: 1,
+          question: "React là gì?",
+          options: [
+            "Một thư viện JavaScript để xây dựng giao diện người dùng",
+            "Một ngôn ngữ lập trình",
+            "Một hệ quản trị cơ sở dữ liệu",
+            "Một hệ điều hành",
+          ],
+          correctAnswer: 0,
+          type: "Multiple Choice",
+          difficulty: "Easy",
+          explanation:
+            "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
+        },
+        {
+          id: 2,
+          question: "React có phải là một framework không?",
+          options: ["Đúng", "Sai"],
+          correctAnswer: 1,
+          type: "True/False",
+          difficulty: "Biết",
+          explanation:
+            "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
+        },
+      ] as Question[],
     },
-    {
-      id: 2,
-      title: "Mạng máy tính và Internet",
-      description: "Mạng máy tính kết nối các thiết bị để truyền và trao đổi dữ liệu.",
-      duration: "60 phút",
-      questions: 25,
-      difficulty: "Nâng cao",
-      attempts: 1,
-      bestScore: 78,
-    },
-    {
-      id: 3,
-      title: "Giữ gìn tính nhân văn trong thế giới ảo",
-      description: "Giao tiếp qua mạng kết nối mọi người nhanh chóng, tiện lợi.",
-      duration: "90 phút",
-      questions: 40,
-      difficulty: "Trung cấp",
-      attempts: 0,
-      bestScore: null,
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    const storedExams = localStorage.getItem("exams");
+    if (storedExams) {
+      setExams(JSON.parse(storedExams));
+    }
+  }, []);
 
   const handleExamClick = (examId: number) => {
     navigate(`/exams/${examId}`);
@@ -96,7 +119,7 @@ export default function Exams() {
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>{exam.questions} câu hỏi</span>
+                    <span>{exam.questions?.length} câu hỏi</span>
                   </div>
                 </div>
 

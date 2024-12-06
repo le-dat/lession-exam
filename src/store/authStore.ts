@@ -10,6 +10,7 @@ interface AuthState {
   } | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  setUserFromLocalStorage: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -18,16 +19,21 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   login: async (email, password) => {
     // Simulate API call
-    if (email === 'admin@example.com' && password === 'admin') {
+    if (email === 'admin@gmail.com' && password === '1234') {
       set({
         isAuthenticated: true,
         userRole: 'admin',
         user: {
           id: '1',
           name: 'Tài khoản quản trị',
-          email: 'admin@example.com',
+          email: 'admin@gmail.com',
         },
       });
+      localStorage.setItem('user', JSON.stringify({
+        id: '1',
+        name: 'Tài khoản quản trị',
+        email: 'admin@gmail.com',
+      }));
     } else {
       set({
         isAuthenticated: true,
@@ -38,6 +44,11 @@ export const useAuthStore = create<AuthState>((set) => ({
           email: email,
         },
       });
+      localStorage.setItem('user', JSON.stringify({
+        id: '2',
+        name: '',
+        email: email,
+      }));
     }
   },
   logout: () => {
@@ -46,5 +57,17 @@ export const useAuthStore = create<AuthState>((set) => ({
       userRole: null,
       user: null,
     });
+    localStorage.removeItem('user');
+  },
+  setUserFromLocalStorage: () => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      set({
+        isAuthenticated: true,
+        userRole: parsedUser.email === 'admin@gmail.com' ? 'admin' : 'user',
+        user: parsedUser,
+      });
+    }
   },
 }));

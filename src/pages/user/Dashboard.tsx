@@ -19,7 +19,7 @@ export default function UserDashboard() {
         />
         <StatCard
           icon={<Target className="w-8 h-8 text-purple-600" />}
-          title="Điểm trung bình"
+          title="Điểm Hiểu"
           value="85%"
         />
         <StatCard

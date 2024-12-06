@@ -1,14 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import QuestionCard from "../../components/exam/QuestionCard";
 import QuestionOverview from "../../components/exam/QuestionOverview";
 import TimerBar from "../../components/exam/TimerBar";
-import { examQuestions } from "../../lib/data/examQuestions";
+import { useParams } from "react-router-dom";
+
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  type: "Multiple Choice" | "True/False";
+  difficulty: "Easy" | "Medium" | "Hard";
+  explanation?: string;
+}
 
 export default function ExamDetailTake() {
+  const { id } = useParams();
+  const [examQuestions, setExamQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(examQuestions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
+
+  useEffect(() => {
+    const savedExam = localStorage.getItem("exams");
+
+    if (savedExam) {
+      const exams = JSON.parse(savedExam);
+      const currentExam = exams.find((e: { id: number }) => e.id === Number(id));
+
+      if (currentExam) {
+        setExamQuestions(currentExam.questions);
+        setAnswers(new Array(currentExam.questions.length).fill(null));
+      }
+    }
+    
+  }, []);
 
   const handleAnswerSelect = (index: number) => {
     const newAnswers = [...answers];
@@ -43,16 +70,18 @@ export default function ExamDetailTake() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <QuestionCard
-              question={examQuestions[currentQuestion]}
-              currentAnswer={answers[currentQuestion]}
-              showResult={showResult}
-              onAnswerSelect={handleAnswerSelect}
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-              isFirst={currentQuestion === 0}
-              isLast={currentQuestion === examQuestions.length - 1}
-            />
+            {examQuestions.length > 0 && (
+              <QuestionCard
+                question={examQuestions[currentQuestion]}
+                currentAnswer={answers[currentQuestion]}
+                showResult={showResult}
+                onAnswerSelect={handleAnswerSelect}
+                onNext={handleNext}
+                onPrevious={handlePrevious}
+                isFirst={currentQuestion === 0}
+                isLast={currentQuestion === examQuestions.length - 1}
+              />
+            )}
           </div>
 
           <div className="lg:col-span-1">
