@@ -1,13 +1,13 @@
-export interface Lesson {
-  id: number;
+import { ICommonMongodb } from "./common-type";
+
+export interface Lesson extends ICommonMongodb {
   title: string;
   content: string;
   duration: string;
-  status: 'published' | 'draft';
+  status: "published" | "draft";
 }
 
-export interface Course {
-  id: number;
+export interface Course extends ICommonMongodb {
   title: string;
   description: string;
   duration: string;
@@ -18,7 +18,7 @@ export interface Course {
 
 export interface CourseStats {
   completionRate: number;
-  engagement: 'Low' | 'Medium' | 'High';
+  engagement: "Low" | "medium" | "High";
   totalStudents: number;
   averageScore: number;
 }

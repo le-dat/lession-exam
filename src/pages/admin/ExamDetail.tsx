@@ -1,104 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Clock, Target, FileText, Plus, Edit, Trash2 } from "lucide-react";
-import QuestionModal from "../../components/modals/QuestionModal";
-import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  type: "Multiple Choice" | "True/False";
-  difficulty: "Easy" | "Medium" | "Hard";
-  explanation?: string;
-}
+import { Clock, Edit, FileText, Plus, Target, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
+import QuestionModal from "../../components/modals/QuestionModal";
+import examService from "../../services/exam-services";
+import { IQuestion } from "../../types/question-type";
 
 export default function ExamDetail() {
   const { id } = useParams();
-  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
-  const [exam, setExam] = useState(() => {
-    const savedExam = localStorage.getItem("exams");
-    return savedExam
-      ? JSON.parse(savedExam)?.find((e: { id: number }) => e.id === Number(id))
-      : {
-          id: 1,
-          title: "Kiểm tra Kiến thức Cơ bản về React",
-          description: "Kiểm tra kiến thức của bạn về các khái niệm cơ bản của React",
-          duration: "45 phút",
-          passingScore: 70,
-          questions: [
-            {
-              id: 1,
-              question: "React là gì?",
-              options: [
-                "Một thư viện JavaScript để xây dựng giao diện người dùng",
-                "Một ngôn ngữ lập trình",
-                "Một hệ quản trị cơ sở dữ liệu",
-                "Một hệ điều hành",
-              ],
-              correctAnswer: 0,
-              type: "Multiple Choice",
-              difficulty: "Easy",
-              explanation:
-                "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
-            },
-            {
-              id: 2,
-              question: "React có phải là một framework không?",
-              options: ["Đúng", "Sai"],
-              correctAnswer: 1,
-              type: "True/False",
-              difficulty: "Biết",
-              explanation:
-                "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
-            },
-          ] as Question[],
-        };
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedQuestion, setSelectedQuestion] = useState<IQuestion | null>(null);
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: [`exam-manager`, id],
+    queryFn: () => examService.getExam(id as string),
+    refetchOnWindowFocus: false,
+    enabled: !!id,
   });
 
-  useEffect(() => {
-    const savedExam = localStorage.getItem("exams");
-    const parsedExam = savedExam
-      ? JSON.parse(savedExam)?.map((item: any) => (item.id === Number(id) ? exam : item))
-      : null;
+  const exam = data?.data;
 
-    localStorage.setItem("exams", JSON.stringify(parsedExam));
-  }, [exam]);
-
-  const handleEditQuestion = (question: Question) => {
+  const handleEditQuestion = (question: IQuestion) => {
     setSelectedQuestion(question);
     setIsQuestionModalOpen(true);
   };
 
-  const handleDeleteQuestion = (question: Question) => {
+  const handleDeleteQuestion = (question: IQuestion) => {
     setSelectedQuestion(question);
     setIsDeleteModalOpen(true);
   };
 
-  const handleQuestionSubmit = (questionData: Partial<Question>) => {
-    setExam((prevExam: { questions: Question[] }) => {
-      const updatedQuestions: Question[] = selectedQuestion
-        ? prevExam.questions.map((q: Question) =>
-            q.id === selectedQuestion.id ? { ...q, ...questionData } : q
-          )
-        : [...prevExam.questions, { ...questionData, id: Date.now() } as Question];
-      return { ...prevExam, questions: updatedQuestions };
-    });
-    setIsQuestionModalOpen(false);
-    setSelectedQuestion(null);
-  };
-
   const handleConfirmDelete = () => {
-    if (selectedQuestion) {
-      setExam((prevExam: { questions: Question[] }) => ({
-        ...prevExam,
-        questions: prevExam.questions.filter((q: Question) => q.id !== selectedQuestion.id),
-      }));
-    }
     setIsDeleteModalOpen(false);
     setSelectedQuestion(null);
   };
@@ -111,38 +46,38 @@ export default function ExamDetail() {
           <div className="bg-white rounded-lg shadow-sm p-8">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">{exam.title}</h1>
-                <p className="text-gray-600 mb-6">{exam.description}</p>
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">{exam?.title}</h1>
+                <p className="text-gray-600 mb-6">{exam?.description}</p>
               </div>
               <button
                 onClick={() => setIsQuestionModalOpen(true)}
                 className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 <Plus className="w-5 h-5" />
-                Add Question
+                Thêm câu hỏi
               </button>
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-gray-400" />
-                <span>{exam.duration}</span>
+                <span>{exam?.duration}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-gray-400" />
-                <span>Đúng: {exam.passingScore}%</span>
+                <span>Đúng: {exam?.passingScore}%</span>
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-gray-400" />
-                <span>{exam.questions.length} câu hỏi</span>
+                <span>{exam?.questions.length} câu hỏi</span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 space-y-6">
-            {exam.questions.map((question: Question, index: number) => (
+            {exam?.questions.map((question: IQuestion, index: number) => (
               <motion.div
-                key={question.id}
+                key={question._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -188,9 +123,9 @@ export default function ExamDetail() {
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span
                     className={`px-2 py-1 rounded ${
-                      question.difficulty === "Easy"
+                      question.difficulty === "easy"
                         ? "bg-green-100 text-green-800"
-                        : question.difficulty === "Medium"
+                        : question.difficulty === "medium"
                         ? "bg-yellow-100 text-yellow-800"
                         : "bg-red-100 text-red-800"
                     }`}
@@ -218,25 +153,25 @@ export default function ExamDetail() {
               <div>
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
                   <span>Tổng số Câu hỏi</span>
-                  <span>{exam.questions.length}</span>
+                  <span>{exam?.questions?.length}</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Biết</span>
                     <span>
-                      {exam.questions.filter((q: Question) => q.difficulty === "Easy").length}
+                      {exam?.questions?.filter((q: IQuestion) => q.difficulty === "easy").length}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Hiểu</span>
                     <span>
-                      {exam.questions.filter((q: Question) => q.difficulty === "Medium").length}
+                      {exam?.questions?.filter((q: IQuestion) => q.difficulty === "medium").length}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Vận dụng</span>
                     <span>
-                      {exam.questions.filter((q: Question) => q.difficulty === "Hard").length}
+                      {exam?.questions?.filter((q: IQuestion) => q.difficulty === "hard").length}
                     </span>
                   </div>
                 </div>
@@ -250,13 +185,16 @@ export default function ExamDetail() {
                   <div className="flex justify-between text-sm">
                     <span>Trắc nghiệm</span>
                     <span>
-                      {exam.questions.filter((q: Question) => q.type === "Multiple Choice").length}
+                      {
+                        exam?.questions?.filter((q: IQuestion) => q.type === "multiple-choice")
+                          .length
+                      }
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Đúng/Sai</span>
                     <span>
-                      {exam.questions.filter((q: Question) => q.type === "True/False").length}
+                      {exam?.questions.filter((q: IQuestion) => q.type === "true/false").length}
                     </span>
                   </div>
                 </div>
@@ -273,7 +211,6 @@ export default function ExamDetail() {
           setSelectedQuestion(null);
         }}
         question={selectedQuestion}
-        onSubmit={handleQuestionSubmit}
       />
 
       <DeleteConfirmModal

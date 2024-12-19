@@ -9,8 +9,8 @@ interface Question {
   question: string;
   options: string[];
   correctAnswer: number;
-  type: "Multiple Choice" | "True/False";
-  difficulty: "Easy" | "Medium" | "Hard";
+  type: "multiple-choice" | "true/false";
+  difficulty: "easy" | "medium" | "hard";
   explanation?: string;
 }
 
@@ -36,8 +36,8 @@ export default function Exams() {
             "Một hệ điều hành",
           ],
           correctAnswer: 0,
-          type: "Multiple Choice",
-          difficulty: "Easy",
+          type: "multiple-choice",
+          difficulty: "easy",
           explanation:
             "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
         },
@@ -46,7 +46,7 @@ export default function Exams() {
           question: "React có phải là một framework không?",
           options: ["Đúng", "Sai"],
           correctAnswer: 1,
-          type: "True/False",
+          type: "true/false",
           difficulty: "Biết",
           explanation:
             "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",

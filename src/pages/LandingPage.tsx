@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { GraduationCap, BookOpen, Award, Users } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { GraduationCap, BookOpen, Award, Users } from "lucide-react";
+import useAuthStore from "../store/auth-store";
 
 export default function LandingPage() {
   const { isAuthenticated, userRole } = useAuthStore();
@@ -9,9 +9,9 @@ export default function LandingPage() {
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      navigate(userRole === 'admin' ? '/admin' : '/dashboard');
+      navigate(userRole === "admin" ? "/admin" : "/dashboard");
     } else {
-      navigate('/register');
+      navigate("/register");
     }
   };
 
@@ -24,8 +24,8 @@ export default function LandingPage() {
             Làm chủ kiến thức của bạn với học tập tương tác
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Nâng cao trải nghiệm học tập của bạn với nền tảng thi toàn diện của chúng tôi.
-            Thực hành, học hỏi và xuất sắc với các bài đánh giá cá nhân hóa.
+            Nâng cao trải nghiệm học tập của bạn với nền tảng thi toàn diện của chúng tôi. Thực
+            hành, học hỏi và xuất sắc với các bài đánh giá cá nhân hóa.
           </p>
           <div className="flex gap-4 justify-center">
             <button
@@ -89,7 +89,15 @@ export default function LandingPage() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="p-6 rounded-xl bg-gray-50 hover:shadow-lg transition">
       <div className="mb-4">{icon}</div>

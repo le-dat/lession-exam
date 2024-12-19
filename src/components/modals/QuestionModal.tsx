@@ -1,225 +1,243 @@
-import React, { useState } from "react";
-import { X, Plus, Trash2 } from "lucide-react";
-
-interface Question {
-  id?: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  type: "Multiple Choice" | "True/False";
-  difficulty: "Easy" | "Medium" | "Hard";
-  explanation?: string;
-}
+import { useMutation } from "@tanstack/react-query";
+import { Plus, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { FORM_QUESTION } from "../../constants/question";
+import questionService from "../../services/question-services";
+import { IQuestion } from "../../types/question-type";
 
 interface QuestionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  question?: Question | null;
-  onSubmit: (questionData: Partial<Question>) => void;
+  question?: IQuestion | null;
+  refetch?: () => void;
 }
 
-export default function QuestionModal({ isOpen, onClose, question, onSubmit }: QuestionModalProps) {
-  const [formData, setFormData] = useState<Partial<Question>>({
-    question: question?.question || "",
-    options: question?.options || ["", ""],
-    correctAnswer: question?.correctAnswer || 0,
-    type: question?.type || "Multiple Choice",
-    difficulty: question?.difficulty || "Easy",
-    explanation: question?.explanation || "",
+export default function QuestionModal({ isOpen, onClose, question, refetch }: QuestionModalProps) {
+  const [options, setOptions] = useState(question?.options || [""]);
+  const methods = useForm({
+    defaultValues: {
+      [FORM_QUESTION.question]: question?.question ?? "",
+      [FORM_QUESTION.options]: question?.options ?? [],
+      [FORM_QUESTION.correctAnswer]: question?.correctAnswer ?? 0,
+      [FORM_QUESTION.type]: question?.type ?? "multiple-choice",
+      [FORM_QUESTION.difficulty]: question?.difficulty ?? "easy",
+      [FORM_QUESTION.explanation]: question?.explanation ?? "",
+    },
+  });
+  const {
+    watch,
+    handleSubmit,
+    reset,
+    register,
+    setValue,
+    formState: { errors },
+  } = methods;
+
+  const { mutate: onCreate, isPending: isPendingCreate } = useMutation({
+    mutationFn: questionService.createQuestion,
+    onSuccess: () => {
+      toast.success("Tạo câu hỏi thành công");
+      reset();
+      onClose();
+      refetch && refetch();
+    },
+    onError: (error) => toast.error(error.message),
   });
 
-  if (!isOpen) return null;
+  const { mutate: onUpdate, isPending: isPendingUpdate } = useMutation({
+    mutationFn: questionService.updateQuestion,
+    onSuccess: () => {
+      toast.success("Cập nhật câu hỏi thành công");
+      reset();
+      onClose();
+      refetch && refetch();
+    },
+    onError: (error) => toast.error(error.message),
+  });
+
+  const isFormValid = watch(FORM_QUESTION.question);
+  const isSubmitDisabled = isPendingCreate || isPendingUpdate || !isFormValid;
+
+  const onSubmit = async (data: any) => {
+    console.log("data: ", data);
+    if (isSubmitDisabled) return;
+
+    if (question) {
+      onUpdate({ ...question, ...data });
+    } else {
+      onCreate(data);
+    }
+  };
+  const onErrors = (errors: any) => console.error(errors);
 
   const handleAddOption = () => {
-    if (formData.options && formData.options.length < 6) {
-      setFormData({
-        ...formData,
-        options: [...formData.options, ""],
-      });
+    console.log(options);
+    if (options && options?.length < 6) {
+      setOptions((prev) => [...prev, ""]);
+      setValue(FORM_QUESTION.options, [...options, ""]);
     }
   };
 
   const handleRemoveOption = (index: number) => {
-    if (formData.options && formData.options.length > 2) {
-      const newOptions = formData.options.filter((_, i) => i !== index);
-      setFormData({
-        ...formData,
-        options: newOptions,
-        correctAnswer:
-          (formData.correctAnswer ?? 0) >= index
-            ? Math.max(0, (formData.correctAnswer ?? 0) - 1)
-            : formData.correctAnswer ?? 0,
-      });
+    if (options && options?.length > 2) {
+      const newOptions = options.filter((_, i) => i !== index);
+      setOptions(newOptions);
+      setValue(FORM_QUESTION.options, newOptions);
     }
   };
 
   const handleOptionChange = (index: number, value: string) => {
-    if (formData.options) {
-      const newOptions = [...formData.options];
-      newOptions[index] = value;
-      setFormData({
-        ...formData,
-        options: newOptions,
-      });
+    if (options) {
+      const newOptions = options.map((option, i) => (i === index ? value : option));
+      setOptions(newOptions);
+      setValue(FORM_QUESTION.options, newOptions);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
+  useEffect(() => {
+    if (question) {
+     reset({
+        [FORM_QUESTION.question]: question.question,
+        [FORM_QUESTION.options]: question.options,
+        [FORM_QUESTION.correctAnswer]: question.correctAnswer,
+        [FORM_QUESTION.difficulty]: question.difficulty,
+        [FORM_QUESTION.explanation]: question.explanation,
+     })
+      setOptions(question.options);
+    }
+  }, [question]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
-            {question ? "Chỉnh sửa Câu hỏi" : "Thêm Câu hỏi Mới"}
+            {question ? "Chỉnh sửa Câu hỏi" : "Thêm câu hỏi mới"}
           </h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Câu hỏi</label>
-            <textarea
-              value={formData.question}
-              onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              rows={3}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Các tùy chọn</label>{" "}
-            <div className="space-y-2">
-              {formData.options?.map((option, index) => (
-                <div key={index} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={option}
-                    onChange={(e) => handleOptionChange(index, e.target.value)}
-                    className="flex-1 rounded-md border border-gray-300 px-3 py-2"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveOption(index)}
-                    className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                    disabled={(formData.options?.length ?? 0) <= 2}
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={handleAddOption}
-              className="mt-2 flex items-center gap-2 text-blue-600 hover:text-blue-800"
-              disabled={(formData.options?.length ?? 0) >= 6}
-            >
-              <Plus className="w-4 h-4" />
-              Thêm tùy chọn
-            </button>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Câu trả lời đúng</label>
-            <select
-              value={formData.correctAnswer}
-              onChange={(e) =>
-                setFormData({ ...formData, correctAnswer: parseInt(e.target.value) })
-              }
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              required
-            >
-              {formData.options?.map((_, index) => (
-                <option key={index} value={index}>
-                  Lựa chọn {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit, onErrors)} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Loại câu hỏi</label>
-              <select
-                value={formData.type}
-                onChange={(e) =>
-                  setFormData({ ...formData, type: e.target.value as Question["type"] })
-                }
+              <label className="block text-sm font-medium text-gray-700">Câu hỏi</label>
+              <textarea
+                {...register(FORM_QUESTION.question, { required: true })}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                rows={3}
                 required
-              >
-                <option value="Multiple Choice">Multiple Choice</option>
-                <option value="True/False">True/False</option>
-              </select>
+              />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Độ khó</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Các tùy chọn</label>{" "}
+              <div className="space-y-2">
+                {options?.map((option, index) => (
+                  <div key={index} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={option}
+                      onChange={(e) => handleOptionChange(index, e.target.value)}
+                      className="flex-1 rounded-md border border-gray-300 px-3 py-2"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveOption(index)}
+                      className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                      disabled={(options?.length ?? 0) <= 2}
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={handleAddOption}
+                className="mt-2 flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                disabled={(options?.length ?? 0) >= 6}
+              >
+                <Plus className="w-4 h-4" />
+                Thêm tùy chọn
+              </button>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Câu trả lời đúng</label>
               <select
-                value={formData.difficulty}
-                onChange={(e) =>
-                  setFormData({ ...formData, difficulty: e.target.value as Question["difficulty"] })
-                }
+                {...register(FORM_QUESTION.correctAnswer, { required: true })}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                 required
               >
-                <option value="Easy">Biết</option>
-                <option value="Medium">Hiểu</option>
-                <option value="Hard">Vận dụng</option>
+                {options?.map((_, index) => (
+                  <option key={index} value={index}>
+                    Lựa chọn {index + 1}
+                  </option>
+                ))}
               </select>
             </div>
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Độ khó</label>
-            <select
-              value={formData.difficulty}
-              onChange={(e) =>
-                setFormData({ ...formData, difficulty: e.target.value as Question["difficulty"] })
-              }
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              required
-            >
-              <option value="Easy">ac1</option>
-              <option value="Medium">ac2</option>
-              <option value="Hard">ac3</option>
-            </select>
-          </div>
+            <div className="grid grid-cols-2 gap-4">
+              {/* <div>
+                <label className="block text-sm font-medium text-gray-700">Loại câu hỏi</label>
+                <select
+                  {...register(FORM_QUESTION.type, { required: true })}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  required
+                >
+                  <option value="multiple-choice">Nhiều lựa chọn</option>
+                  <option value="true/false">Đúng/Sai</option>
+                </select>
+              </div> */}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Giải thích (tùy chọn)</label>
-            <textarea
-              value={formData.explanation}
-              onChange={(e) => setFormData({ ...formData, explanation: e.target.value })}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              rows={3}
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Độ khó</label>
+                <select
+                  {...register(FORM_QUESTION.difficulty, { required: true })}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  required
+                >
+                  <option value="easy">Biết</option>
+                  <option value="medium">Hiểu</option>
+                  <option value="hard">Vận dụng</option>
+                </select>
+              </div>
+            </div>
 
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              {question ? "Cập nhật" : "Tạo"}
-            </button>
-          </div>
-        </form>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Giải thích (tùy chọn)
+              </label>
+              <textarea
+                {...register(FORM_QUESTION.explanation, { required: false })}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                rows={3}
+              />
+            </div>
+
+            <div className="flex justify-end gap-4 mt-6">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              >
+                {question ? "Cập nhật" : "Tạo"}
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </div>
     </div>
   );

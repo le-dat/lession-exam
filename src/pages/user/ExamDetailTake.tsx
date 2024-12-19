@@ -9,8 +9,8 @@ interface Question {
   question: string;
   options: string[];
   correctAnswer: number;
-  type: "Multiple Choice" | "True/False";
-  difficulty: "Easy" | "Medium" | "Hard";
+  type: "multiple-choice" | "true/false";
+  difficulty: "easy" | "medium" | "hard";
   explanation?: string;
 }
 
@@ -34,7 +34,6 @@ export default function ExamDetailTake() {
         setAnswers(new Array(currentExam.questions.length).fill(null));
       }
     }
-    
   }, []);
 
   const handleAnswerSelect = (index: number) => {

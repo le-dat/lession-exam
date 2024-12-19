@@ -1,54 +1,91 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import examService from "../../services/exam-services";
+import { toast } from "sonner";
+import { IExam } from "../../types/exam-type";
+import { FORM_EXAM } from "../../constants/exam";
+import questionService from "../../services/question-services";
 
 interface ExamModalProps {
   isOpen: boolean;
   onClose: () => void;
-  exam?: {
-    id?: number;
-    title: string;
-    description: string;
-    duration: string;
-    totalQuestions: number;
-    passingScore: number;
-  };
-  onSubmit: (examData: any) => void;
+  exam: IExam | null;
+  refetch?: () => void;
 }
 
-export default function ExamModal({ isOpen, onClose, exam, onSubmit }: ExamModalProps) {
-  const [formData, setFormData] = useState({
-    title: exam?.title || "",
-    description: exam?.description || "",
-    duration: exam?.duration || "",
-    totalQuestions: exam?.totalQuestions || 0,
-    passingScore: exam?.passingScore || 70,
+export default function ExamModal({ isOpen, onClose, exam = null, refetch }: ExamModalProps) {
+  const methods = useForm({
+    defaultValues: {
+      [FORM_EXAM.title]: exam?.title ?? "",
+      [FORM_EXAM.description]: exam?.description ?? "",
+      [FORM_EXAM.duration]: exam?.duration ?? 60,
+      [FORM_EXAM.questions]: exam?.questions ?? [],
+      [FORM_EXAM.easySize]: exam?.easySize ?? 0,
+      [FORM_EXAM.mediumSize]: exam?.mediumSize ?? 0,
+      [FORM_EXAM.hardSize]: exam?.hardSize ?? 0,
+    },
+  });
+  const {
+    watch,
+    handleSubmit,
+    reset,
+    register,
+    formState: { errors },
+  } = methods;
+
+  const { mutate: onRandomQuestion, isPending: isPendingRandomQuestion } = useMutation({
+    mutationFn: questionService?.getRandomQuestionsByDifficulty,
+    onSuccess: () => {
+      toast.success("Bài kiểm tra đã được tạo thành công");
+      reset();
+      onClose();
+    },
+    onError: (error) => toast.error(error.message),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({...exam, ...formData});
-    onClose();
-  };
+  const { mutate: onCreate, isPending: isPendingCreate } = useMutation({
+    mutationFn: examService.createExam,
+    onSuccess: () => {
+      toast.success("Bài kiểm tra đã được tạo thành công");
+      reset();
+      onClose();
+    },
+    onError: (error) => toast.error(error.message),
+  });
 
-  useEffect(() => {
+  const { mutate: onUpdate, isPending: isPendingUpdate } = useMutation({
+    mutationFn: examService.updateExam,
+    onSuccess: () => {
+      toast.success("Bài kiểm tra đã được cập nhật thành công");
+      reset();
+      onClose();
+    },
+    onError: (error) => toast.error(error.message),
+  });
+
+  const isFormValid = watch(FORM_EXAM.title) && watch(FORM_EXAM.description);
+  const isSubmitDisabled = isPendingCreate || isPendingUpdate || !isFormValid;
+
+  const onSubmit = async (data: any) => {
+    console.log("data: ", data);
+    if (isSubmitDisabled) return;
+
     if (exam) {
-      setFormData({
-        title: exam.title,
-        description: exam.description,
-        duration: exam.duration,
-        totalQuestions: exam.totalQuestions,
-        passingScore: exam.passingScore,
-      });
+      onUpdate({ ...exam, ...data });
     } else {
-      setFormData({
-        title: "",
-        description: "",
-        duration: "",
-        totalQuestions: 0,
-        passingScore: 70,
+      await onRandomQuestion({
+        easySize: data.easySize,
+        mediumSize: data.mediumSize,
+        hardSize: data.hardSize,
       });
+
+      await onCreate(data);
     }
-  }, [exam, isOpen]);
+    refetch && refetch();
+  };
+  const onErrors = (errors: any) => console.error(errors);
 
   if (!isOpen) return null;
 
@@ -57,53 +94,91 @@ export default function ExamModal({ isOpen, onClose, exam, onSubmit }: ExamModal
       <div className="bg-white rounded-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
-            {exam ? "Chỉnh sửa Bài kiểm tra" : "Thêm Bài kiểm tra Mới"}
+            {exam ? "Chỉnh sửa Bài kiểm tra" : "Thêm bài kiểm tra mới"}
           </h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit, onErrors)} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Tiêu đề</label>
+              <input
+                type="text"
+                {...register(FORM_EXAM.title)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Tiêu đề</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              required
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Mô tả</label>
+              <textarea
+                {...register(FORM_EXAM.description)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                rows={3}
+                required
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Mô tả</label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-              rows={3}
-              required
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Thời gian (phút)</label>
+              <input
+                type="number"
+                {...register(FORM_EXAM.duration)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Số câu biết</label>
+              <input
+                type="number"
+                {...register(FORM_EXAM.easySize)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
 
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
-              Hủy
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              {exam ? "Cập nhật" : "Tạo mới"}
-            </button>
-          </div>
-        </form>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Số câu hiểu</label>
+              <input
+                type="number"
+                {...register(FORM_EXAM.mediumSize)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Số câu vận dụng</label>
+              <input
+                type="number"
+                {...register(FORM_EXAM.hardSize)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+
+            <div className="flex justify-end gap-4 mt-6">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              >
+                Hủy
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              >
+                {exam ? "Cập nhật" : "Tạo mới"}
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </div>
     </div>
   );
