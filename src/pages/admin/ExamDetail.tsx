@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Clock, Edit, FileText, Plus, Target, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
 import QuestionModal from "../../components/modals/QuestionModal";
 import examService from "../../services/exam-services";
 import { IQuestion } from "../../types/question-type";
+import { DIFFICULTY_OPTIONS } from "../../constants/question";
 
 export default function ExamDetail() {
   const { id } = useParams();
@@ -20,8 +21,17 @@ export default function ExamDetail() {
     refetchOnWindowFocus: false,
     enabled: !!id,
   });
-
   const exam = data?.data;
+
+  const { mutate: onUpdateExam } = useMutation({
+    mutationFn: examService.updateExam,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Error deleting question:", error);
+    },
+  });
 
   const handleEditQuestion = (question: IQuestion) => {
     setSelectedQuestion(question);
@@ -49,13 +59,13 @@ export default function ExamDetail() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">{exam?.title}</h1>
                 <p className="text-gray-600 mb-6">{exam?.description}</p>
               </div>
-              <button
+              {/* <button
                 onClick={() => setIsQuestionModalOpen(true)}
                 className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 <Plus className="w-5 h-5" />
                 Thêm câu hỏi
-              </button>
+              </button> */}
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
@@ -63,19 +73,19 @@ export default function ExamDetail() {
                 <Clock className="w-5 h-5 text-gray-400" />
                 <span>{exam?.duration}</span>
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-gray-400" />
                 <span>Đúng: {exam?.passingScore}%</span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-gray-400" />
-                <span>{exam?.questions.length} câu hỏi</span>
+                <span>{exam?.questions?.length} câu hỏi</span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 space-y-6">
-            {exam?.questions.map((question: IQuestion, index: number) => (
+            {exam?.questions?.map((question: IQuestion, index: number) => (
               <motion.div
                 key={question._id}
                 initial={{ opacity: 0, y: 20 }}
@@ -96,7 +106,7 @@ export default function ExamDetail() {
                     <button
                       onClick={() => handleDeleteQuestion(question)}
                       className="p-2 text-red-600 hover:text-red-900"
-                      title="Delete Question"
+                      title="Xóa câu hỏi"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -130,9 +140,9 @@ export default function ExamDetail() {
                         : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {question.difficulty}
+                    {DIFFICULTY_OPTIONS[question.difficulty]}
                   </span>
-                  <span>{question.type}</span>
+                  {/* <span>{question.type}</span> */}
                 </div>
 
                 {question.explanation && (
@@ -147,11 +157,11 @@ export default function ExamDetail() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
+          <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[74px]">
             <h2 className="text-xl font-semibold mb-4">Tóm tắt Câu hỏi</h2>
             <div className="space-y-4">
               <div>
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
+                <div className="flex justify-between border-b text-sm text-gray-600 py-2">
                   <span>Tổng số Câu hỏi</span>
                   <span>{exam?.questions?.length}</span>
                 </div>
@@ -177,7 +187,7 @@ export default function ExamDetail() {
                 </div>
               </div>
 
-              <div className="border-t pt-4">
+              {/* <div className="border-t pt-4">
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
                   <span>Loại Câu hỏi</span>
                 </div>
@@ -194,11 +204,11 @@ export default function ExamDetail() {
                   <div className="flex justify-between text-sm">
                     <span>Đúng/Sai</span>
                     <span>
-                      {exam?.questions.filter((q: IQuestion) => q.type === "true/false").length}
+                      {exam?.questions?.filter((q: IQuestion) => q.type === "true/false").length}
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -211,6 +221,7 @@ export default function ExamDetail() {
           setSelectedQuestion(null);
         }}
         question={selectedQuestion}
+        refetch={refetch}
       />
 
       <DeleteConfirmModal
@@ -220,8 +231,8 @@ export default function ExamDetail() {
           setSelectedQuestion(null);
         }}
         onConfirm={handleConfirmDelete}
-        title="Delete Question"
-        message="Are you sure you want to delete this question? This action cannot be undone."
+        title="Xóa câu hỏi"
+        message="Bạn có chắc chắn muốn xóa câu hỏi này không? Hành động này không thể hoàn tác."
       />
     </div>
   );

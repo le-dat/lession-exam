@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
-import questionService from "../../services/question-services";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IQuestion } from "../../types/question-type";
-import QuestionModal from "../../components/modals/QuestionModal";
+import { Edit, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
 import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
+import QuestionModal from "../../components/modals/QuestionModal";
 import { DIFFICULTY_OPTIONS } from "../../constants/question";
+import questionService from "../../services/question-services";
+import { IQuestion } from "../../types/question-type";
 
 export default function AdminQuestions() {
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState<boolean>(false);

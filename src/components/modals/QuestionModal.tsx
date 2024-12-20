@@ -37,7 +37,7 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
 
   const { mutate: onCreate, isPending: isPendingCreate } = useMutation({
     mutationFn: questionService.createQuestion,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Tạo câu hỏi thành công");
       reset();
       onClose();
@@ -61,13 +61,13 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
   const isSubmitDisabled = isPendingCreate || isPendingUpdate || !isFormValid;
 
   const onSubmit = async (data: any) => {
-    console.log("data: ", data);
     if (isSubmitDisabled) return;
+    const formatData = { ...data, type: "multiple-choice" };
 
     if (question) {
-      onUpdate({ ...question, ...data });
+      onUpdate({ ...question, ...formatData });
     } else {
-      onCreate(data);
+      onCreate(formatData);
     }
   };
   const onErrors = (errors: any) => console.error(errors);
@@ -98,13 +98,13 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
 
   useEffect(() => {
     if (question) {
-     reset({
+      reset({
         [FORM_QUESTION.question]: question.question,
         [FORM_QUESTION.options]: question.options,
         [FORM_QUESTION.correctAnswer]: question.correctAnswer,
         [FORM_QUESTION.difficulty]: question.difficulty,
         [FORM_QUESTION.explanation]: question.explanation,
-     })
+      });
       setOptions(question.options);
     }
   }, [question]);

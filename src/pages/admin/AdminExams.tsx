@@ -80,7 +80,6 @@ export default function Exams() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => handleExamClick(exam._id)}
             >
               <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -88,7 +87,7 @@ export default function Exams() {
                     <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
                   </div>
                   <div className="flex space-x-2">
-                    <button
+                    {/* <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenModalEditCourse(exam);
@@ -96,7 +95,7 @@ export default function Exams() {
                       className="text-blue-600 hover:text-blue-900"
                     >
                       <Edit className="w-5 h-5" />
-                    </button>
+                    </button> */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -125,8 +124,11 @@ export default function Exams() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 sm:gap-2 text-blue-600 text-sm sm:text-base">
+                <div
+                  onClick={() => handleExamClick(exam._id)}
+                  className="flex items-center justify-between "
+                >
+                  <div className="flex items-center gap-1 sm:gap-2 text-blue-600 text-sm sm:text-base hover:underline transition-all">
                     <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Xem Chi tiết</span>
                   </div>

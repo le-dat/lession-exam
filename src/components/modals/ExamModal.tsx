@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import examService from "../../services/exam-services";
 import { toast } from "sonner";
-import { IExam } from "../../types/exam-type";
 import { FORM_EXAM } from "../../constants/exam";
+import examService from "../../services/exam-services";
 import questionService from "../../services/question-services";
+import { IExam } from "../../types/exam-type";
 
 interface ExamModalProps {
   isOpen: boolean;
@@ -35,12 +34,13 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
     formState: { errors },
   } = methods;
 
-  const { mutate: onRandomQuestion, isPending: isPendingRandomQuestion } = useMutation({
-    mutationFn: questionService?.getRandomQuestionsByDifficulty,
+  const { mutate: onUpdate, isPending: isPendingUpdate } = useMutation({
+    mutationFn: examService.updateExam,
     onSuccess: () => {
-      toast.success("Bài kiểm tra đã được tạo thành công");
+      toast.success("Bài kiểm tra đã được cập nhật thành công");
       reset();
       onClose();
+      refetch && refetch();
     },
     onError: (error) => toast.error(error.message),
   });
@@ -51,16 +51,18 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
       toast.success("Bài kiểm tra đã được tạo thành công");
       reset();
       onClose();
+      refetch && refetch();
     },
     onError: (error) => toast.error(error.message),
   });
 
-  const { mutate: onUpdate, isPending: isPendingUpdate } = useMutation({
-    mutationFn: examService.updateExam,
-    onSuccess: () => {
-      toast.success("Bài kiểm tra đã được cập nhật thành công");
-      reset();
-      onClose();
+  const { mutate: onRandomQuestion, isPending: isPendingRandomQuestion } = useMutation({
+    mutationFn: questionService?.getRandomQuestionsByDifficulty,
+    onSuccess: (data) => {
+      onCreate({
+        ...methods.getValues(),
+        questions: data?.data,
+      });
     },
     onError: (error) => toast.error(error.message),
   });
@@ -69,21 +71,24 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
   const isSubmitDisabled = isPendingCreate || isPendingUpdate || !isFormValid;
 
   const onSubmit = async (data: any) => {
-    console.log("data: ", data);
     if (isSubmitDisabled) return;
+
+    const { easySize, mediumSize, hardSize } = data;
+
+    if (easySize <= 0 || mediumSize <= 0 || hardSize <= 0) {
+      toast.error("Hãy chọn số lượng câu hỏi cho mỗi loại. Mỗi loại ít nhất 1 câu");
+      return;
+    }
 
     if (exam) {
       onUpdate({ ...exam, ...data });
     } else {
-      await onRandomQuestion({
-        easySize: data.easySize,
-        mediumSize: data.mediumSize,
-        hardSize: data.hardSize,
+      onRandomQuestion({
+        easySize,
+        mediumSize,
+        hardSize,
       });
-
-      await onCreate(data);
     }
-    refetch && refetch();
   };
   const onErrors = (errors: any) => console.error(errors);
 
