@@ -1,7 +1,7 @@
 export interface IDateTime {
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
 }
 
 export interface IId {

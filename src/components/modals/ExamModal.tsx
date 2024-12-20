@@ -24,6 +24,7 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
       [FORM_EXAM.easySize]: exam?.easySize ?? 0,
       [FORM_EXAM.mediumSize]: exam?.mediumSize ?? 0,
       [FORM_EXAM.hardSize]: exam?.hardSize ?? 0,
+      [FORM_EXAM.subject]: exam?.subject ?? "computer",
     },
   });
   const {
@@ -73,7 +74,7 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
   const onSubmit = async (data: any) => {
     if (isSubmitDisabled) return;
 
-    const { easySize, mediumSize, hardSize } = data;
+    const { easySize, mediumSize, hardSize, subject } = data;
 
     if (easySize <= 0 || mediumSize <= 0 || hardSize <= 0) {
       toast.error("Hãy chọn số lượng câu hỏi cho mỗi loại. Mỗi loại ít nhất 1 câu");
@@ -87,6 +88,7 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
         easySize,
         mediumSize,
         hardSize,
+        subject
       });
     }
   };
@@ -135,6 +137,23 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Chủ đề</label>
+              <select
+                {...register(FORM_EXAM.subject, { required: true })}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              >
+                <option value="computer">Máy tính và xã hội tri thức</option>
+                <option value="network">Mạng máy tính và Internet</option>
+                <option value="ethics">Đạo đức, pháp luật và văn hóa trong môi trường số</option>
+                <option value="problem-solving">
+                  Giải quyết vấn đề với sự trợ giúp của máy tính
+                </option>
+                <option value="career-guidance">Hướng nghiệp với tin học</option>
+              </select>
             </div>
 
             <div>

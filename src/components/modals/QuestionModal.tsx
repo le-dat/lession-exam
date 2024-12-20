@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Plus, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -12,9 +12,16 @@ interface QuestionModalProps {
   onClose: () => void;
   question?: IQuestion | null;
   refetch?: () => void;
+  handleUpdateExam?: any;
 }
 
-export default function QuestionModal({ isOpen, onClose, question, refetch }: QuestionModalProps) {
+export default function QuestionModal({
+  isOpen,
+  onClose,
+  question,
+  refetch,
+  handleUpdateExam,
+}: QuestionModalProps) {
   const [options, setOptions] = useState(question?.options || [""]);
   const methods = useForm({
     defaultValues: {
@@ -24,6 +31,9 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
       [FORM_QUESTION.type]: question?.type ?? "multiple-choice",
       [FORM_QUESTION.difficulty]: question?.difficulty ?? "easy",
       [FORM_QUESTION.explanation]: question?.explanation ?? "",
+      [FORM_QUESTION.grade]: question?.grade ?? "grade11",
+      [FORM_QUESTION.subject]: question?.subject ?? "computer",
+      [FORM_QUESTION.level]: question?.level ?? "levelA",
     },
   });
   const {
@@ -37,7 +47,10 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
 
   const { mutate: onCreate, isPending: isPendingCreate } = useMutation({
     mutationFn: questionService.createQuestion,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      if (handleUpdateExam) {
+        await handleUpdateExam(data?.data?._id);
+      }
       toast.success("Tạo câu hỏi thành công");
       reset();
       onClose();
@@ -104,6 +117,9 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
         [FORM_QUESTION.correctAnswer]: question.correctAnswer,
         [FORM_QUESTION.difficulty]: question.difficulty,
         [FORM_QUESTION.explanation]: question.explanation,
+        [FORM_QUESTION.grade]: question.grade,
+        [FORM_QUESTION.subject]: question.subject,
+        [FORM_QUESTION.level]: question.level,
       });
       setOptions(question.options);
     }
@@ -168,18 +184,49 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
               </button>
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Câu trả lời đúng</label>
+                <select
+                  {...register(FORM_QUESTION.correctAnswer, { required: true })}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  required
+                >
+                  {options?.map((_, index) => (
+                    <option key={index} value={index}>
+                      Lựa chọn {index + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Lớp</label>
+                <select
+                  {...register(FORM_QUESTION.grade, { required: true })}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  required
+                >
+                  <option value="grade11">Lớp 11</option>
+                  <option value="grade12">Lớp 12</option>
+                </select>
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700">Câu trả lời đúng</label>
+              <label className="block text-sm font-medium text-gray-700">Chủ đề</label>
               <select
-                {...register(FORM_QUESTION.correctAnswer, { required: true })}
+                {...register(FORM_QUESTION.subject, { required: true })}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                 required
               >
-                {options?.map((_, index) => (
-                  <option key={index} value={index}>
-                    Lựa chọn {index + 1}
-                  </option>
-                ))}
+                <option value="computer">Máy tính và xã hội tri thức</option>
+                <option value="network">Mạng máy tính và Internet</option>
+                <option value="ethics">Đạo đức, pháp luật và văn hóa trong môi trường số</option>
+                <option value="problem-solving">
+                  Giải quyết vấn đề với sự trợ giúp của máy tính
+                </option>
+                <option value="career-guidance">Hướng nghiệp với tin học</option>
               </select>
             </div>
 
@@ -208,6 +255,19 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
                   <option value="hard">Vận dụng</option>
                 </select>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Chỉ báo năng lực</label>
+                <select
+                  {...register(FORM_QUESTION.level, { required: true })}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  required
+                >
+                  <option value="levelA">Năng lực A</option>
+                  <option value="levelB">Năng lực B</option>
+                  <option value="levelC">Năng lực C</option>
+                </select>
+              </div>
             </div>
 
             <div>
@@ -227,7 +287,7 @@ export default function QuestionModal({ isOpen, onClose, question, refetch }: Qu
                 onClick={onClose}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
               >
-                Cancel
+                Hủy
               </button>
               <button
                 type="submit"

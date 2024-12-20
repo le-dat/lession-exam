@@ -1,6 +1,6 @@
-import React from "react";
 import { AlertCircle } from "lucide-react";
 import { IQuestion } from "../../types/question-type";
+import ScoreOverview from "./ScoreOverview";
 
 interface QuestionOverviewProps {
   questions?: IQuestion[];
@@ -15,6 +15,9 @@ export default function QuestionOverview({
   currentQuestion,
   onQuestionSelect,
 }: QuestionOverviewProps) {
+  const allQuestionsAnswered =
+    answers.length === questions?.length && answers.every((answer) => answer !== null);
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
       <h3 className="text-lg font-semibold mb-4">Tổng quan Câu hỏi</h3>
@@ -38,7 +41,7 @@ export default function QuestionOverview({
         ))}
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 grid grid-cols-2 gap-2">
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-gray-100"></div>
           <span>Chưa trả lời</span>
@@ -79,6 +82,10 @@ export default function QuestionOverview({
           </div>
         </div>
       </div>
+
+      {allQuestionsAnswered && questions && (
+        <ScoreOverview questions={questions} answers={answers} />
+      )}
     </div>
   );
 }

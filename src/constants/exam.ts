@@ -9,4 +9,5 @@ export const FORM_EXAM = Object.freeze({
   easySize: "easySize",
   mediumSize: "mediumSize",
   hardSize: "hardSize",
+  subject: "subject",
 } as const);

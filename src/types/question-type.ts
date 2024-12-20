@@ -7,4 +7,7 @@ export interface IQuestion extends ICommonMongodb {
   type: "multiple-choice" | "true/false";
   difficulty: "easy" | "medium" | "hard";
   explanation?: string;
+  grade: string;
+  subject: string;
+  level: string;
 }

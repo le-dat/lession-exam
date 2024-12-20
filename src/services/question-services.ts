@@ -57,16 +57,19 @@ const questionService = {
     easySize,
     mediumSize,
     hardSize,
+    subject
   }: {
     easySize: string;
     mediumSize: string;
     hardSize: string;
+    subject: string;
   }) => {
     try {
       const response = await axiosClient.post("/question/random", {
         easySize,
         mediumSize,
         hardSize,
+        subject
       });
       return response.data as SuccessResponse<IQuestion[]>;
     } catch (error: any) {

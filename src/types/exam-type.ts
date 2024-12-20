@@ -8,7 +8,8 @@ export interface IExam extends ICommonMongodb {
   // bestScore?: number;
   // passingScore?: number;
   questions?: IQuestion[];
-  easySize?: number;
-  mediumSize?: number;
-  hardSize?: number;
+  easySize: number;
+  mediumSize: number;
+  hardSize: number;
+  subject: string;
 }

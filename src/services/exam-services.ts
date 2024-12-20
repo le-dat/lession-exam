@@ -35,7 +35,7 @@ const examService = {
 
   updateExam: async (data: any) => {
     try {
-      const response = await axiosClient.put(`/exam/${data.id}`, data);
+      const response = await axiosClient.put(`/exam/${data?._id}`, data);
       return response.data as SuccessResponse<IExam>;
     } catch (error: any) {
       console.error(error);

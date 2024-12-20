@@ -8,6 +8,7 @@ import QuestionModal from "../../components/modals/QuestionModal";
 import examService from "../../services/exam-services";
 import { IQuestion } from "../../types/question-type";
 import { DIFFICULTY_OPTIONS } from "../../constants/question";
+import { toast } from "sonner";
 
 export default function ExamDetail() {
   const { id } = useParams();
@@ -24,12 +25,17 @@ export default function ExamDetail() {
   const exam = data?.data;
 
   const { mutate: onUpdateExam } = useMutation({
-    mutationFn: examService.updateExam,
+    mutationFn: (id) =>
+      examService.updateExam({
+        ...exam,
+        questions: exam?.questions ? [...exam.questions, id] : [id],
+      }),
     onSuccess: () => {
       refetch();
     },
     onError: (error) => {
-      console.error("Error deleting question:", error);
+      console.error("Error updating exam", error);
+      toast.error("Error deleting question");
     },
   });
 
@@ -59,13 +65,13 @@ export default function ExamDetail() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">{exam?.title}</h1>
                 <p className="text-gray-600 mb-6">{exam?.description}</p>
               </div>
-              {/* <button
+              <button
                 onClick={() => setIsQuestionModalOpen(true)}
                 className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 <Plus className="w-5 h-5" />
                 Thêm câu hỏi
-              </button> */}
+              </button>
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
@@ -120,7 +126,7 @@ export default function ExamDetail() {
                     <div
                       key={optionIndex}
                       className={`p-3 rounded-lg ${
-                        optionIndex === question.correctAnswer
+                        optionIndex === Number(question.correctAnswer)
                           ? "bg-green-50 border border-green-200"
                           : "bg-gray-50 border border-gray-200"
                       }`}
@@ -222,6 +228,7 @@ export default function ExamDetail() {
         }}
         question={selectedQuestion}
         refetch={refetch}
+        handleUpdateExam={onUpdateExam}
       />
 
       <DeleteConfirmModal

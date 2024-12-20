@@ -63,7 +63,7 @@ export default function Practice() {
               className={`w-full text-left p-4 rounded-lg border ${
                 selectedAnswer === index
                   ? showResult
-                    ? index === questions[currentQuestion].correctAnswer
+                    ? index === Number(questions[currentQuestion].correctAnswer)
                       ? 'border-green-500 bg-green-50'
                       : 'border-red-500 bg-red-50'
                     : 'border-blue-500 bg-blue-50'
@@ -73,7 +73,7 @@ export default function Practice() {
               <div className="flex items-center justify-between">
                 <span>{option}</span>
                 {showResult && index === selectedAnswer && (
-                  index === questions[currentQuestion].correctAnswer ? (
+                  index === Number(questions[currentQuestion].correctAnswer) ? (
                     <CheckCircle className="w-5 h-5 text-green-500" />
                   ) : (
                     <XCircle className="w-5 h-5 text-red-500" />

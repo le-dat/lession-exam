@@ -5,6 +5,10 @@ export const FORM_QUESTION = Object.freeze({
   type: "type",
   difficulty: "difficulty",
   explanation: "explanation",
+
+  grade: "grade",
+  subject: "subject",
+  level: "level",
 } as const);
 
 export const questionTypes = Object.freeze([
