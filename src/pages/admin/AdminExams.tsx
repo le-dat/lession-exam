@@ -31,8 +31,6 @@ export default function Exams() {
     mutationFn: examService.deleteExam,
   });
 
-  console.log("data", exams);
-
   const handleDeleteExam = (examId: number | string) => {
     onDeleteById(examId?.toString(), {
       onSuccess: () => {

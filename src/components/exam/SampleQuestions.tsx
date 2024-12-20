@@ -1,12 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import { IQuestion } from "../../types/question-type";
 
 interface SampleQuestionsProps {
-  questions: Array<{
-    id: number;
-    question: string;
-    options: string[];
-  }>;
+  questions?: IQuestion[];
 }
 
 export default function SampleQuestions({ questions }: SampleQuestionsProps) {
@@ -14,9 +11,9 @@ export default function SampleQuestions({ questions }: SampleQuestionsProps) {
     <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
       <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Sample Questions</h2>
       <div className="space-y-4 sm:space-y-6">
-        {questions.map((question, index) => (
+        {questions?.map((question, index) => (
           <motion.div
-            key={question.id}
+            key={question._id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -39,8 +36,8 @@ export default function SampleQuestions({ questions }: SampleQuestionsProps) {
         ))}
       </div>
       <p className="text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6">
-        These are sample questions to help you understand the exam format. 
-        The actual exam will contain different questions.
+        These are sample questions to help you understand the exam format. The actual exam will
+        contain different questions.
       </p>
     </div>
   );

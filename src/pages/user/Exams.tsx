@@ -3,6 +3,9 @@ import { FileText, Clock, Award, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "../../components/SEO";
+import { DIFFICULTY_OPTIONS } from "../../constants/question";
+import examService from "../../services/exam-services";
+import { useQuery } from "@tanstack/react-query";
 
 interface Question {
   id: number;
@@ -16,53 +19,16 @@ interface Question {
 
 export default function Exams() {
   const navigate = useNavigate();
-  const [exams, setExams] = useState([
-    {
-      id: 1,
-      title: "Khái niệm Trí tuệ nhân tạo (AI)",
-      description: "AI là khả năng máy tính thực hiện các công việc trí tuệ như con người.",
-      duration: "45 phút",
-      difficulty: "Người mới bắt đầu",
-      attempts: 2,
-      bestScore: 85,
-      questions: [
-        {
-          id: 1,
-          question: "React là gì?",
-          options: [
-            "Một thư viện JavaScript để xây dựng giao diện người dùng",
-            "Một ngôn ngữ lập trình",
-            "Một hệ quản trị cơ sở dữ liệu",
-            "Một hệ điều hành",
-          ],
-          correctAnswer: 0,
-          type: "multiple-choice",
-          difficulty: "easy",
-          explanation:
-            "React là một thư viện JavaScript được phát triển bởi Facebook để xây dựng giao diện người dùng.",
-        },
-        {
-          id: 2,
-          question: "React có phải là một framework không?",
-          options: ["Đúng", "Sai"],
-          correctAnswer: 1,
-          type: "true/false",
-          difficulty: "Biết",
-          explanation:
-            "React là một thư viện, không phải là một framework. Nó tập trung vào các thành phần giao diện người dùng.",
-        },
-      ] as Question[],
-    },
-  ]);
 
-  useEffect(() => {
-    const storedExams = localStorage.getItem("exams");
-    if (storedExams) {
-      setExams(JSON.parse(storedExams));
-    }
-  }, []);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: [`exam-user`],
+    queryFn: () => examService.getExams(),
+    refetchOnWindowFocus: false,
+  });
 
-  const handleExamClick = (examId: number) => {
+  const exams = data?.data;
+
+  const handleExamClick = (examId: string) => {
     navigate(`/exams/${examId}`);
   };
 
@@ -80,31 +46,20 @@ export default function Exams() {
         </h1>
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {exams.map((exam, index) => (
+          {exams?.map((exam, index) => (
             <motion.div
-              key={exam.id}
+              key={exam._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => handleExamClick(exam.id)}
+              onClick={() => handleExamClick(exam._id)}
             >
               <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <div className="bg-blue-100 p-2 rounded-lg">
                     <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
                   </div>
-                  <span
-                    className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
-                      exam.difficulty === "Người mới bắt đầu"
-                        ? "bg-green-100 text-green-800"
-                        : exam.difficulty === "Trung cấp"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {exam.difficulty}
-                  </span>
                 </div>
 
                 <h2 className="text-lg sm:text-xl font-semibold mb-2">{exam.title}</h2>
@@ -123,27 +78,7 @@ export default function Exams() {
                   </div>
                 </div>
 
-                {exam.bestScore && (
-                  <div className="mb-3 sm:mb-4">
-                    <div className="flex items-center gap-1 sm:gap-2 mb-1">
-                      <Award className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
-                      <span className="text-xs sm:text-sm text-gray-600">
-                        Điểm cao nhất: {exam.bestScore}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
-                      <div
-                        className="bg-yellow-500 rounded-full h-1.5 sm:h-2"
-                        style={{ width: `${exam.bestScore}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
-
                 <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm text-gray-500">
-                    {exam.attempts} {exam.attempts === 1 ? "lần thử" : "lần thử"} còn lại
-                  </span>
                   <div className="flex items-center gap-1 sm:gap-2 text-blue-600 text-sm sm:text-base">
                     <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Xem Chi tiết</span>

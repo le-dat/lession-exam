@@ -1,13 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { IQuestion } from "../../types/question-type";
 
 interface QuestionCardProps {
-  question: {
-    question: string;
-    options: string[];
-    correctAnswer: number;
-  };
+  question: IQuestion;
   currentAnswer: number | null;
   showResult: boolean;
   onAnswerSelect: (index: number) => void;
@@ -45,22 +42,22 @@ export default function QuestionCard({
             className={`w-full text-left p-4 rounded-lg border transition-all ${
               currentAnswer === index
                 ? showResult
-                  ? index === question.correctAnswer
-                    ? 'border-green-500 bg-green-50'
-                    : 'border-red-500 bg-red-50'
-                  : 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
+                  ? index === Number(question.correctAnswer)
+                    ? "border-green-500 bg-green-50"
+                    : "border-red-500 bg-red-50"
+                  : "border-blue-500 bg-blue-50"
+                : "border-gray-200 hover:border-blue-500 hover:bg-blue-50"
             }`}
           >
             <div className="flex items-center justify-between">
               <span>{option}</span>
-              {showResult && currentAnswer === index && (
-                index === question.correctAnswer ? (
+              {showResult &&
+                currentAnswer === index &&
+                (index === Number(question.correctAnswer) ? (
                   <CheckCircle className="w-5 h-5 text-green-500" />
                 ) : (
                   <XCircle className="w-5 h-5 text-red-500" />
-                )
-              )}
+                ))}
             </div>
           </button>
         ))}
