@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { FileText, Clock, Award, Play } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import SEO from "../../components/SEO";
-import { DIFFICULTY_OPTIONS } from "../../constants/question";
-import examService from "../../services/exam-services";
 import { useQuery } from "@tanstack/react-query";
-
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  type: "multiple-choice" | "true/false";
-  difficulty: "easy" | "medium" | "hard";
-  explanation?: string;
-}
+import { motion } from "framer-motion";
+import { Clock, FileText, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import SEO from "../../components/SEO";
+import examService from "../../services/exam-services";
 
 export default function Exams() {
   const navigate = useNavigate();
@@ -70,7 +58,7 @@ export default function Exams() {
                 <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-4">
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>{exam.duration}</span>
+                    <span>{exam.duration} phút</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -220,4 +220,105 @@ export const course3 = {
     },
   ],
 };
-export const courses = [course1, course2, course3];
+
+export const course4 = {
+  id: 4,
+  title: "Tạo trang web",
+  description: "",
+  duration: "2 tuần",
+  students: 156,
+  progress: 75,
+  lessons: [
+    {
+      id: 1,
+      title: "Giữ gìn tính nhân văn trong thế giới ảo",
+      duration: "45 phút",
+      status: "published" as "published" | "draft",
+      content: ` 
+        ## 1.Cấu trúc trang Web dưới dạng HTML  
+        ## 1.1.Giới thiệu trang Web và ngôn ngữ HTML  
+        HTML là viết tắt của cụm từ Hypertext Markup Language (ngôn ngữ đánh dấu siêu văn bản), là một bộ quy tắc dùng để thiết lập cấu trúc và hiển thị nội dung trang web.
+        HTML sử dụng các thẻ (tags) để đánh dấu các phần khác nhau của trang web, chẳng hạn như: tiêu đề, đoạn văn bản, hình ảnh, liên kết và các đối tượng đa phương tiện khác. Trang web được thiết lập từ các tệp văn bản thường có phần mở rộng là .html hoặc .htm được gọi là trang HTML.
+        Người lập trình sử dụng các công cụ soạn thảo văn bản HTML để biên soạn và chỉnh sửa văn bản (mã nguồn) HTML. Người dùng mở các tệp tin HTML bằng trình duyệt như: Google Chrome, Cốc cốc, Microsoft Edge,… để xem các nội dung của trang web.
+        Mọi thành phần trong trang web đều được tại ra bằng các thẻ. Mỗi loại thẻ có một tên riêng và có ý nghĩa nhất định trong định dạng nội dung của trang web. Các thẻ được viết trong cặp dấu “<”.”>”. Thông thường mỗi thẻ sẽ bao gồm thẻ bắt đầu và thẻ kết thúc, chỉ ra phạm vi tác dụng của thẻ.
+        
+        ### a) Phần tử HTML
+        Các tệp HTML là tệp văn bản được cấu tạo từ các phần tử HTML. Mỗi phần tử HTML gồm nội dung được đánh dấu bằng một cặp thẻ mở (thẻ bắt đầu, kí hiệu <tên_thẻ>) và thẻ đóng (thẻ kết thúc, kí hiệu </tên_thẻ>), có tính năng điều khiển hoặc định dạng nội dung. Một số phần tử đặc biệt như <img>,<input> không có thẻ đóng.Trình duyệt có chức năng hiển thị nội dung trang web theo đúng định dạng được thiết lập.
+          
+
+        ### b) Cấu trúc văn bản HTML  
+        Cấu trúc cơ bản của HTML bao gồm 5 phần tử chính là <!DOCTYPE>, <html>, <head>, <title> và <body>. Trong đó:
+        <!DOCTYPE>: Mọi tài liệu HTML phải bắt đầu bằng khai báo <!DOCTYPE> cho trình duyệt web biết được trang được biết bằng phiên bản HTML nào.
+        <html>: Cho biết rằng trang sẽ được định dạng bằng HTML và nội dung của trang đó sẽ sử dụng ngôn ngữ nào (English, Vietnamese,…) được sử dụng cho một trang web thông qua thuộc tính <lang>.
+        <head>: Chứa tất cả nội dung bạn muốn đưa vào trang HTML nhưng không hiển thị cho người xem trang. Bao gồm những thứ như từ khóa (keywords), mô tả trang (page description) mà bạn muốn xuất hiện trên công cụ tìm kiếm. Ngoài ra, <head> cũng thường chứa các liên kết CSS, JavaScript hay Meta Tags.
+        <title>: Phần tử đặt tiêu đề cho trang, tiêu đề xuất hiện đầu tiên trong tab trình duyệt.
+        <body>: Phần tử chứa tất cả nội dung mà bạn muốn hiển thị cho người dùng web khi họ truy cập trang của bạn như văn bản, hình ảnh, video, trò chơi, âm thanh hay bất kỳ nội dung nào khác.  
+
+        ## c)Soạn thảo văn bản HTML
+        Tệp tin văn bản HTML có thể được soạn thảo bằng công cụ soạn thảo bất kì, song các công cụ soạn thảo chuyên biệt giúp việc này được dễ dàng và nhanh chóng hơn. Một số công cụ soạn thảo văn bản HTML dùng trên máy tính (ngoại tuyến) phổ biến như: Visual Studio Code, Sublime Text hay Notepad++. Hiện nay, có rất nhiều công cụ soạn thảo văn bản HTML trực tuyến như onlinegdb.com, w3school.com hay tutorialpoint.com. Các công cụ soạn thảo ngoại tuyến thường có tính năng phong phú hơn và không yêu cầu kết nối mạng. Ngược lại, các công cụ trực tuyến có thể tiện dụng, làm việc mọi lúc mọi nơi mà không cần cài đặt trên máy tính, song lại đòi hỏi phải có kết nối Internet. Do đó, tuy vào điều kiện của từng cá nhân, chúng ta có lựa chọn sử dụng công cụ soạn thảo trực tuyến hoặc ngoại tuyến.  
+        
+        # 2. Tạo và định dạng nội dung văn bản HTML
+        Các thẻ định dạng văn bản trong HTML là công cụ giúp điều chỉnh hình thức hiển thị văn bản trên trang web một cách dễ dàng và linh hoạt, tạo ra nội dung rõ ràng, hấp dẫn hơn cho người đọc.
+        `,
+    },
+  ],
+};
+
+export const course5 = {
+  id: 5,
+  title: "Giới thiệu nhóm nghề dịch vụ và quản trị",
+  description: "",
+  duration: "2 tuần",
+  students: 156,
+  progress: 75,
+  lessons: [
+    {
+      id: 1,
+      title: "Nghề Sửa chữa và bảo trì máy tính",
+      duration: "45 phút",
+      status: "published" as "published" | "draft",
+      content: ` 
+        ## 1.1.Công việc chính mà người làm nghề phải thực hiện  
+        Sửa chữa và bảo trì máy tính là một dịch vụ quan trọng, nhằm duy trì sự ổn định của máy tính cũng như các thiết bị liên quan, hỗ trợ kỹ thuật cho người dùng khi cần.
+        Người làm nghề sửa chữa và bảo trì máy tính cần thực hiện các công việc chính như sau:
+        Liên quan tới phần cứng:
+
+        ### Các ưu điểm chính:  
+        - **Kiểm soát và duy trì hoạt động của máy tính. 
+        - **Xác định và khắc phục lỗi phần cứng khi có sự cố xảy ra.  
+        - **Lưu trữ thông tin thuận lợi**: Nội dung trò chuyện có thể lưu lại để tham khảo sau này, tiết kiệm thời gian và công sức.  
+        - **Giảm rào cản giao tiếp ban đầu**: Giúp học sinh nhút nhát hoặc người bình thường dễ dàng giao tiếp với thầy cô, lãnh đạo cấp cao, người nổi tiếng.  
+        - **Hỗ trợ người khuyết tật**: Giúp người khiếm khuyết ngoại hình, khiếm thính hoặc khiếm ngôn giao tiếp mà không cần người hỗ trợ.  
+
+        ## Hạn chế của giao tiếp trong không gian mạng  
+        Giao tiếp qua không gian mạng mất đi nhiều ưu điểm của giao tiếp trực tiếp và có thể gây ra một số vấn đề:  
+
+        ### Các hạn chế chính:  
+        - **Thiếu ngôn ngữ hình thể và tín hiệu cảm xúc**: Dễ xảy ra hiểu lầm do diễn giải sai ý nghĩa lời văn, ví dụ một trò đùa có thể bị hiểu nhầm là nghiêm túc.  
+        - **Kỹ năng viết kém**: Dễ dãi khi viết tin nhắn dẫn đến sai chính tả, ngữ pháp và lạm dụng từ viết tắt.  
+        - **Lười biếng**: Lạm dụng công nghệ, như nhắn tin cho người trong cùng phòng thay vì trò chuyện trực tiếp.  
+        - **Nguy cơ nghiện Internet**: Ít trải nghiệm cuộc sống thực, giao tiếp ngây ngô và khó hòa nhập cộng đồng.  
+        - **Nguy cơ rình rập, quấy rối, bắt nạt**: Các vấn đề an ninh cá nhân và sự quấy rối trên mạng.  
+        - **Rủi ro về thông tin cá nhân**: Nguy cơ bị lộ thông tin cá nhân, cần quản lý kỹ thuật chặt chẽ để đảm bảo an toàn.  
+
+        ## Ứng xử văn hóa trong không gian mạng  
+
+        ### Các nguyên tắc ứng xử nhân văn:  
+        - **Không mạo danh**: Không giả làm người khác vì bất kỳ mục đích nào.  
+        - **Không tiếp tay cho kẻ xấu**: Không phát tán nội dung bắt nạt, quấy rối; phản đối và phê phán hành vi này.  
+        - **Cảnh giác trước lừa đảo**: Tránh các chiêu trò lừa đảo như nhử mồi (baiting) và deepfake.  
+
+        ### Các giá trị nhân văn cần thể hiện:  
+        - **Đồng cảm**: Chia sẻ khi biết tin về thiên tai, thảm họa gây thiệt hại.  
+        - **Ủng hộ và ca ngợi**: Đánh giá cao và ca ngợi người tốt, việc tốt.  
+        - **Phản đối và phê phán**: Thể hiện sự không đồng tình với những hành vi tiêu cực.  
+
+        ### Hành động vì giá trị nhân văn:  
+        - **Vận động và tham gia ủng hộ**: Hỗ trợ đồng bào bị thiệt hại về tài sản hoặc tính mạng.  
+        - **Ca ngợi người tốt, việc tốt**: Đưa tin chân thực, ca ngợi các hành động tích cực.  
+        - **Phê phán tiêu cực**: Phát hiện và phê phán sự việc tiêu cực một cách có văn hóa và đạo đức.  
+        `,
+    },
+  ],
+};
+export const courses = [course1, course2, course3, course4, course5];

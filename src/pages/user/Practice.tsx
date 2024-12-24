@@ -1,33 +1,19 @@
 import React from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
+import questionService from '../../services/question-services';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Practice() {
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [selectedAnswer, setSelectedAnswer] = React.useState<number | null>(null);
   const [showResult, setShowResult] = React.useState(false);
 
-  const questions = [
-    {
-      question: 'React là gì?',
-      options: [
-        'Một thư viện JavaScript để xây dựng giao diện người dùng',
-        'Một ngôn ngữ lập trình',
-        'Một hệ quản trị cơ sở dữ liệu',
-        'Một hệ điều hành',
-      ],
-      correctAnswer: 0,
-    },
-    {
-      question: 'Hook nào được sử dụng cho các tác dụng phụ trong React?',
-      options: [
-        'useState',
-        'useEffect',
-        'useContext',
-        'useReducer',
-      ],
-      correctAnswer: 1,
-    },
-  ];
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: [`question-manager`],
+    queryFn: () => questionService.getQuestions(),
+    refetchOnWindowFocus: false,
+  });
+  const questions = data?.data;
 
   const handleAnswerSelect = (index: number) => {
     setSelectedAnswer(index);
@@ -37,7 +23,7 @@ export default function Practice() {
   const handleNext = () => {
     setSelectedAnswer(null);
     setShowResult(false);
-    setCurrentQuestion((prev) => Math.min(prev + 1, questions.length - 1));
+    setCurrentQuestion((prev) => Math.min(prev + 1, questions ? questions.length - 1 : prev));
   };
 
   return (
@@ -47,15 +33,15 @@ export default function Practice() {
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="mb-8">
           <span className="text-sm text-gray-500">
-            Câu {currentQuestion + 1} / {questions.length}
+            Câu {currentQuestion + 1} / {questions?.length}
           </span>
           <h2 className="text-xl font-semibold mt-2">
-            {questions[currentQuestion].question}
+            {questions?.[currentQuestion].question}
           </h2>
         </div>
 
         <div className="space-y-4">
-          {questions[currentQuestion].options.map((option, index) => (
+          {questions?.[currentQuestion].options.map((option, index) => (
             <button
               key={index}
               onClick={() => handleAnswerSelect(index)}
@@ -63,7 +49,7 @@ export default function Practice() {
               className={`w-full text-left p-4 rounded-lg border ${
                 selectedAnswer === index
                   ? showResult
-                    ? index === Number(questions[currentQuestion].correctAnswer)
+                    ? index === Number(questions?.[currentQuestion].correctAnswer)
                       ? 'border-green-500 bg-green-50'
                       : 'border-red-500 bg-red-50'
                     : 'border-blue-500 bg-blue-50'
@@ -73,7 +59,7 @@ export default function Practice() {
               <div className="flex items-center justify-between">
                 <span>{option}</span>
                 {showResult && index === selectedAnswer && (
-                  index === Number(questions[currentQuestion].correctAnswer) ? (
+                  index === Number(questions?.[currentQuestion].correctAnswer) ? (
                     <CheckCircle className="w-5 h-5 text-green-500" />
                   ) : (
                     <XCircle className="w-5 h-5 text-red-500" />

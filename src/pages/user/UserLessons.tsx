@@ -50,7 +50,7 @@ export default function UserLessons() {
               </div>
               <h2 className="text-xl font-semibold mb-2">{lesson.title}</h2>
               <p className="text-gray-600 mb-4">{lesson.description}</p>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 rounded-full h-2"
@@ -58,7 +58,7 @@ export default function UserLessons() {
                   ></div>
                 </div>
                 <span className="text-sm text-gray-500">{lesson.progress}% hoàn thành</span>
-              </div>
+              </div> */}
               <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                 <Play className="w-5 h-5" />
                 {lesson.progress === 0 ? 'Bắt đầu' : 'Tiếp tục'}

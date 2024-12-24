@@ -23,7 +23,7 @@ const adminLinks = Object.freeze([
 const userLinks = Object.freeze([
   { path: "/dashboard", label: "Trang chủ", icon: <BarChart2 className="w-5 h-5" /> },
   { path: "/lessons", label: "Bài học", icon: <BookOpen className="w-5 h-5" /> },
-  { path: "/practice", label: "Thực hành", icon: <FileText className="w-5 h-5" /> },
+  { path: "/practice", label: "Ôn tập", icon: <FileText className="w-5 h-5" /> },
   { path: "/exams", label: "Kiểm tra", icon: <FileText className="w-5 h-5" /> },
 ]);
 

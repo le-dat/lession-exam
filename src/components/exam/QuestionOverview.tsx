@@ -7,6 +7,7 @@ interface QuestionOverviewProps {
   answers: (number | null)[];
   currentQuestion: number;
   onQuestionSelect: (index: number) => void;
+  submitted?: boolean;
 }
 
 export default function QuestionOverview({
@@ -14,6 +15,7 @@ export default function QuestionOverview({
   answers,
   currentQuestion,
   onQuestionSelect,
+  submitted,
 }: QuestionOverviewProps) {
   const allQuestionsAnswered =
     answers.length === questions?.length && answers.every((answer) => answer !== null);
@@ -29,8 +31,8 @@ export default function QuestionOverview({
             className={`aspect-square rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
               currentQuestion === index
                 ? "bg-blue-600 text-white"
-                : answers[index] !== null
-                ? answers[index] === Number(questions[index].correctAnswer)
+                : submitted && answers[index] !== null
+                ? submitted && answers[index] === Number(questions[index].correctAnswer)
                   ? "bg-green-100 text-green-800"
                   : "bg-red-100 text-red-800"
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
@@ -42,10 +44,10 @@ export default function QuestionOverview({
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-2">
-        <div className="flex items-center gap-2 text-sm">
+        {/* <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-gray-100"></div>
           <span>Chưa trả lời</span>
-        </div>
+        </div> */}
         <div className="flex items-center gap-2 text-sm">
           <div className="w-4 h-4 rounded bg-blue-600"></div>
           <span>Câu hỏi hiện tại</span>
@@ -83,7 +85,7 @@ export default function QuestionOverview({
         </div>
       </div>
 
-      {allQuestionsAnswered && questions && (
+      {submitted && allQuestionsAnswered && questions && (
         <ScoreOverview questions={questions} answers={answers} />
       )}
     </div>

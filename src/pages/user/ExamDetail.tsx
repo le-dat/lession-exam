@@ -10,16 +10,6 @@ import MobileSidebar from "../../components/layout/MobileSidebar";
 import examService from "../../services/exam-services";
 import { useQuery } from "@tanstack/react-query";
 
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  type: "multiple-choice" | "true/false";
-  difficulty: "easy" | "medium" | "hard";
-  explanation?: string;
-}
-
 export default function ExamDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -71,7 +61,7 @@ export default function ExamDetail() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                   <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span>{exam?.duration}</span>
+                  <span>{exam?.duration} phút</span>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -85,7 +75,7 @@ export default function ExamDetail() {
 
           {/* Desktop Sidebar */}
           <div className="hidden lg:block lg:col-span-1">
-            <ExamInfoCard exam={exam} onStartExam={handleStartExam} />
+            <ExamInfoCard exam={exam} onStartExam={handleStartExam} isExam />
           </div>
 
           {/* Mobile Sidebar */}
@@ -95,7 +85,7 @@ export default function ExamDetail() {
             title="Exam Information"
           >
             <div className="p-4">
-              <ExamInfoCard exam={exam} onStartExam={handleStartExam} />
+              <ExamInfoCard exam={exam} onStartExam={handleStartExam} isExam />
             </div>
           </MobileSidebar>
         </div>

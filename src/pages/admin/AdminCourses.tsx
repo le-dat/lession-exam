@@ -35,6 +35,15 @@ export default function AdminCourses() {
       lessons: 24,
       students: 128,
     },
+    {
+      id: 4,
+      title: "Giữ gìn tính nhân văn trong thế giới ảo",
+      description: "Giao tiếp qua mạng kết nối mọi người nhanh chóng, tiện lợi.",
+      duration: "12 tuần",
+      lessons: 24,
+      students: 128,
+    },
+   
   ];
 
   const handleEditCourse = (course: any) => {

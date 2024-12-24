@@ -257,7 +257,7 @@ export default function QuestionModal({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Chỉ báo năng lực</label>
+                <label className="block text-sm font-medium text-gray-700">Năng lực</label>
                 <select
                   {...register(FORM_QUESTION.level, { required: true })}
                   className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"

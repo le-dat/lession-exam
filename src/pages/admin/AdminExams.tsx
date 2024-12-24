@@ -114,7 +114,7 @@ export default function Exams() {
                 <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-4">
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>{exam?.duration}</span>
+                    <span>{exam?.duration} phút</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-sm sm:text-base">
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
