@@ -8,10 +8,6 @@ import ExamQuestions from "../../components/exam/ExamQuestions";
 
 export default function PracticeDetailTake() {
   const { id } = useParams();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: [`exam-manager`, id],
@@ -20,6 +16,11 @@ export default function PracticeDetailTake() {
     enabled: !!id,
   });
   const examQuestions = data?.data?.questions;
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [_showResult, setShowResult] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number>(Number(data?.data?.duration || 0) * 60 || 3600); // 60 minutes in seconds
 
   const handleJumpToQuestion = (index: number) => {
     setCurrentQuestion(index);
@@ -33,6 +34,7 @@ export default function PracticeDetailTake() {
   useEffect(() => {
     if (timeLeft <= 0) {
       setShowResult(true);
+      setSubmitted(true);
       return;
     }
 

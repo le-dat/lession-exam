@@ -75,7 +75,7 @@ export default function ExamDetail() {
 
           {/* Desktop Sidebar */}
           <div className="hidden lg:block lg:col-span-1">
-            <ExamInfoCard exam={exam} onStartExam={handleStartExam} isExam />
+            <ExamInfoCard exam={exam} onStartExam={handleStartExam}  />
           </div>
 
           {/* Mobile Sidebar */}
@@ -85,7 +85,7 @@ export default function ExamDetail() {
             title="Exam Information"
           >
             <div className="p-4">
-              <ExamInfoCard exam={exam} onStartExam={handleStartExam} isExam />
+              <ExamInfoCard exam={exam} onStartExam={handleStartExam}  />
             </div>
           </MobileSidebar>
         </div>
