@@ -7,8 +7,9 @@ import DeleteConfirmModal from "../../components/modals/DeleteConfirmModal";
 import QuestionModal from "../../components/modals/QuestionModal";
 import examService from "../../services/exam-services";
 import { IQuestion } from "../../types/question-type";
-import { DIFFICULTY_OPTIONS } from "../../constants/question";
+import { DIFFICULTY_OPTIONS, TrueFalseTypes } from "../../constants/question";
 import { toast } from "sonner";
+import questionService from "../../services/question-services";
 
 export default function ExamDetail() {
   const { id } = useParams();
@@ -24,7 +25,7 @@ export default function ExamDetail() {
   });
   const exam = data?.data;
 
-  const { mutate: onUpdateExam } = useMutation({
+  const { mutate: onUpdateQuestion } = useMutation({
     mutationFn: (id) =>
       examService.updateExam({
         ...exam,
@@ -32,6 +33,21 @@ export default function ExamDetail() {
       }),
     onSuccess: () => {
       refetch();
+      toast.success("Question added to exam");
+    },
+    onError: (error) => {
+      console.error("Error updating exam", error);
+      toast.error("Error deleting question");
+    },
+  });
+
+  const { mutate: onDeleteQuestion } = useMutation({
+    mutationFn: (id: string) => questionService.deleteQuestion(id),
+    onSuccess: () => {
+      refetch && refetch();
+      setIsDeleteModalOpen(false);
+      setSelectedQuestion(null);
+      toast.success("Question deleted successfully");
     },
     onError: (error) => {
       console.error("Error updating exam", error);
@@ -50,8 +66,7 @@ export default function ExamDetail() {
   };
 
   const handleConfirmDelete = () => {
-    setIsDeleteModalOpen(false);
-    setSelectedQuestion(null);
+    onDeleteQuestion(selectedQuestion?._id as string);
   };
 
   return (
@@ -122,18 +137,46 @@ export default function ExamDetail() {
                 <p className="text-gray-800 mb-4">{question.question}</p>
 
                 <div className="space-y-2 mb-4">
-                  {question.options.map((option, optionIndex) => (
-                    <div
-                      key={optionIndex}
-                      className={`p-3 rounded-lg ${
-                        optionIndex === Number(question.correctAnswer)
-                          ? "bg-green-50 border border-green-200"
-                          : "bg-gray-50 border border-gray-200"
-                      }`}
-                    >
-                      {option}
+                  {question?.type === "multiple-choice" ? (
+                    question?.options?.map((option, optionIndex) => (
+                      <div
+                        key={optionIndex}
+                        className={`p-3 rounded-lg ${
+                          optionIndex === Number(question.correctAnswer)
+                            ? "bg-green-50 border border-green-200"
+                            : "bg-gray-50 border border-gray-200"
+                        }`}
+                      >
+                        {option}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="space-y-2 mb-4">
+                      {question?.optionsSelect?.map((option, optionIndex) => (
+                        <div
+                          key={optionIndex}
+                          className={`p-3 rounded-lg bg-gray-50 border border-gray-200 flex items-center gap-2`}
+                        >
+                          <div className="flex-1">{option?.label}</div>
+
+                          {TrueFalseTypes?.map((item, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className={`p-3 rounded-lg ${
+                                  question?.optionsSelect?.[optionIndex]?.value == item.value
+                                    ? "bg-green-50 border border-green-200"
+                                    : "bg-gray-50 border border-gray-200"
+                                }`}
+                              >
+                                {item.label}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
@@ -228,7 +271,7 @@ export default function ExamDetail() {
         }}
         question={selectedQuestion}
         refetch={refetch}
-        handleUpdateExam={onUpdateExam}
+        handleUpdateExam={onUpdateQuestion}
       />
 
       <DeleteConfirmModal

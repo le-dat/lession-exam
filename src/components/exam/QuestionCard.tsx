@@ -34,7 +34,7 @@ export default function QuestionCard({
       <h2 className="text-xl font-semibold mb-6">{question.question}</h2>
 
       <div className="space-y-4">
-        {question.options.map((option, index) => (
+        {question?.options?.map((option, index) => (
           <button
             key={index}
             onClick={() => onAnswerSelect(index)}

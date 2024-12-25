@@ -1,6 +1,7 @@
 export const FORM_QUESTION = Object.freeze({
   question: "question",
   options: "options",
+  optionsSelect: "optionsSelect",
   correctAnswer: "correctAnswer",
   type: "type",
   difficulty: "difficulty",
@@ -11,9 +12,15 @@ export const FORM_QUESTION = Object.freeze({
   level: "level",
 } as const);
 
+
 export const questionTypes = Object.freeze([
-  { label: "Trắc nghiệm", value: "multiple" },
-  { label: "Tự luận", value: "essay" },
+  { label: "Câu hỏi chọn đáp án", value: "multiple-choice" },
+  { label: "Câu hỏi Đúng/Sai", value: "true/false" },
+]);
+
+export const TrueFalseTypes = Object.freeze([
+  { label: "Sai", value: "false" },
+  { label: "Đúng", value: "true" },
 ]);
 
 export const difficultyOptions = Object.freeze([
