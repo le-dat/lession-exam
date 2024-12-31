@@ -50,14 +50,14 @@ const ExamQuestions: React.FC<ExamQuestionsProps> = ({
                   disabled={submitted}
                   onClick={() => handleOptionSelect(questionIndex, optionIndex)}
                   className={`p-2 w-full text-start sm:p-3 rounded-lg border text-sm sm:text-base cursor-pointer ${
-                    answers[questionIndex] === optionIndex
+                    optionIndex === answers[questionIndex]
                       ? "bg-blue-100 border-blue-200"
                       : "bg-white border-gray-200"
                   } ${
                     submitted &&
                     (optionIndex === Number(question.correctAnswer)
                       ? "bg-green-100 border-green-200"
-                      : answers[questionIndex] === optionIndex
+                      : optionIndex === answers[questionIndex]
                       ? "bg-red-100 border-red-200"
                       : "")
                   }`}
@@ -66,6 +66,23 @@ const ExamQuestions: React.FC<ExamQuestionsProps> = ({
                 </button>
               ))}
             </div>
+
+            {submitted && (
+              <div className="bg-blue-100 p-2 rounded-lg mt-4">
+                {Number(question.correctAnswer) !== answers[questionIndex] && (
+                  <div className=" text-sm sm:text-base">
+                    <span className="font-semibold">Đáp án đúng:</span>{" "}
+                    {question.options[Number(question.correctAnswer)]}
+                  </div>
+                )}
+
+                {question.explanation && (
+                  <div className=" text-sm sm:text-base mt-2">
+                    <span className="font-semibold">Giải thích:</span> {question.explanation}
+                  </div>
+                )}
+              </div>
+            )}
           </motion.div>
         ))}
       </div>

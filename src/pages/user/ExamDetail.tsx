@@ -70,7 +70,7 @@ export default function ExamDetail() {
               </div>
             </motion.div>
             <ExamRules />
-            <SampleQuestions questions={exam?.questions} />
+            {/* <SampleQuestions questions={exam?.questions} /> */}
           </div>
 
           {/* Desktop Sidebar */}

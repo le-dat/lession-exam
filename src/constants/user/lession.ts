@@ -216,4 +216,130 @@ Giao tiếp qua không gian mạng mất đi nhiều ưu điểm của giao ti�
 
 `;
 
-export const lessonContents = [lessonContent1, lessonContent2, lessonContent3];
+export const lessonContent4 = `
+# Cấu trúc trang Web dưới dạng HTML
+
+## Giới thiệu trang Web và ngôn ngữ HTML
+
+HTML là viết tắt của cụm từ Hypertext Markup Language (ngôn ngữ đánh dấu siêu văn bản), là một bộ quy tắc dùng để thiết lập cấu trúc và hiển thị nội dung trang web.
+
+HTML sử dụng các thẻ (tags) để đánh dấu các phần khác nhau của trang web, chẳng hạn như: tiêu đề, đoạn văn bản, hình ảnh, liên kết và các đối tượng đa phương tiện khác. Trang web được thiết lập từ các tệp văn bản thường có phần mở rộng là .html hoặc .htm được gọi là trang HTML.
+
+Người lập trình sử dụng các công cụ soạn thảo văn bản HTML để biên soạn và chỉnh sửa văn bản (mã nguồn) HTML. Người dùng mở các tệp tin HTML bằng trình duyệt như: Google Chrome, Cốc Cốc, Microsoft Edge,… để xem các nội dung của trang web.
+
+Mọi thành phần trong trang web đều được tạo ra bằng các thẻ. Mỗi loại thẻ có một tên riêng và có ý nghĩa nhất định trong định dạng nội dung của trang web. Các thẻ được viết trong cặp dấu. Thông thường mỗi thẻ sẽ bao gồm thẻ bắt đầu và thẻ kết thúc, chỉ ra phạm vi tác dụng của thẻ.
+
+### Phần tử HTML
+
+Các tệp HTML là tệp văn bản được cấu tạo từ các phần tử HTML. Mỗi phần tử HTML gồm nội dung được đánh dấu bằng một cặp thẻ mở (thẻ bắt đầu, ký hiệu <tên_thẻ>) và thẻ đóng (thẻ kết thúc, ký hiệu </tên_thẻ>, có tính năng điều khiển hoặc định dạng nội dung. Một số phần tử đặc biệt như <img>, <input> không có thẻ đóng. Trình duyệt có chức năng hiển thị nội dung trang web theo đúng định dạng được thiết lập.
+
+#### Cú pháp khai báo một phần tử
+
+- **Tên thẻ**: được đặt tên mang tính gợi nhớ tới ý nghĩa của thẻ. Ví dụ, <title> là thẻ tạo tiêu đề cho trang web, <head> là phần đầu của văn bản HTML.  
+- **Nội dung**: Là phần chứa nội dung được định dạng hoặc tác động bởi phần tử đó. Ví dụ, với phần tử <p>, nội dung là văn bản được hiển thị, với phần tử <h1>, nội dung là phần văn bản sẽ được áp dụng định dạng Heading 1.  
+
+Để cung cấp thông tin bổ sung, một số phần tử cho phép khai báo thêm một hoặc nhiều thuộc tính. Tuy nhiên, việc khai báo thuộc tính là không bắt buộc.  
+
+Thuộc tính được viết trong thẻ mở theo cú pháp như sau:
+- **Thuộc tính**: Phần tử có thể có nhiều thuộc tính nhằm cung cấp thông tin bổ sung cho phần tử như màu sắc, kích thước, liên kết,… Mỗi thuộc tính được viết dưới dạng tên thuộc tính và dấu =, sau đó đến giá trị thiết lập cho thuộc tính đó đặt trong ngoặc kép. Các thuộc tính phân tách nhau bởi dấu cách.
+
+### Cấu trúc văn bản HTML
+
+Cấu trúc cơ bản của HTML bao gồm 5 phần tử chính là <!DOCTYPE>, <html>, <head>, <title> và <body>. Trong đó:
+
+- <!DOCTYPE>: Mọi tài liệu HTML phải bắt đầu bằng khai báo <!DOCTYPE> cho trình duyệt web biết được trang được viết bằng phiên bản HTML nào.  
+- <html>: Cho biết rằng trang sẽ được định dạng bằng HTML và nội dung của trang đó sẽ sử dụng ngôn ngữ nào (English, Vietnamese,…) được sử dụng cho một trang web thông qua thuộc tính <lang>.  
+- <head>: Chứa tất cả nội dung bạn muốn đưa vào trang HTML nhưng không hiển thị cho người xem trang. Bao gồm những thứ như từ khóa (keywords), mô tả trang (page description) mà bạn muốn xuất hiện trên công cụ tìm kiếm. Ngoài ra, <head> cũng thường chứa các liên kết CSS, JavaScript hay Meta Tags.  
+- <title>: Phần tử đặt tiêu đề cho trang, tiêu đề xuất hiện đầu tiên trong tab trình duyệt.  
+- <body>: Phần tử chứa tất cả nội dung mà bạn muốn hiển thị cho người dùng web khi họ truy cập trang của bạn như văn bản, hình ảnh, video, trò chơi, âm thanh hay bất kỳ nội dung nào khác.
+### Soạn thảo văn bản HTML
+
+Tệp tin văn bản HTML có thể được soạn thảo bằng công cụ soạn thảo bất kỳ, song các công cụ soạn thảo chuyên biệt giúp việc này dễ dàng và nhanh chóng hơn.  
+
+Một số công cụ soạn thảo văn bản HTML dùng trên máy tính (ngoại tuyến) phổ biến như: Visual Studio Code, Sublime Text hay Notepad++.  
+
+Hiện nay, có rất nhiều công cụ soạn thảo văn bản HTML trực tuyến như onlinegdb.com, w3school.com hay tutorialpoint.com. Các công cụ soạn thảo ngoại tuyến thường có tính năng phong phú hơn và không yêu cầu kết nối mạng. Ngược lại, các công cụ trực tuyến tiện dụng hơn, làm việc mọi lúc mọi nơi nhưng đòi hỏi kết nối Internet.
+
+## Tạo và định dạng nội dung văn bản HTML
+
+### Định dạng văn bản
+
+Các thẻ định dạng văn bản trong HTML giúp điều chỉnh hình thức hiển thị văn bản trên trang web dễ dàng và linh hoạt, tạo ra nội dung rõ ràng, hấp dẫn hơn cho người đọc.  
+
+#### Một số thẻ định dạng văn bản thường dùng
+
+- <h1> đến <h6>: Tạo tiêu đề với các cấp độ khác nhau. <h1> là tiêu đề lớn nhất, <h6> là tiêu đề nhỏ nhất.  
+- <p>: Tạo đoạn văn bản, phân tách nội dung thành nhiều đoạn.  
+- <strong>: Nhấn mạnh bằng cách in đậm văn bản.  
+- <em>: Nhấn mạnh bằng cách in nghiêng văn bản.  
+- <mark>: Tô màu vàng cho nền của đoạn văn bản.  
+`;
+
+export const lessonContent5 = `
+# V. Chủ đề G: Giới thiệu nhóm nghề dịch vụ và quản trị  
+
+## 1. Nghề Sửa chữa và bảo trì máy tính  
+
+### Công việc chính  
+- **Phần cứng**:  
+  - Kiểm tra, sửa chữa, nâng cấp linh kiện (RAM, ổ cứng, mainboard, v.v.).  
+  - Xác định nguyên nhân và khắc phục lỗi phần cứng.  
+- **Phần mềm**:  
+  - Cài đặt, cấu hình hệ điều hành, phần mềm văn phòng.  
+  - Diệt virus, đảm bảo an toàn hệ thống.  
+- **Hỗ trợ người dùng**:  
+  - Hướng dẫn sử dụng thiết bị và phần mềm.
+
+### Yêu cầu kiến thức, kỹ năng  
+- **Kiến thức**:  
+  - Phần cứng: Sửa chữa, thay thế linh kiện.  
+  - Phần mềm: Cài đặt, cấu hình hệ điều hành và phần mềm.  
+  - Mạng máy tính: Kết nối, cấu hình mạng cơ bản.  
+- **Kỹ năng mềm**:  
+  - Giải quyết vấn đề, giao tiếp, quản lý thời gian.  
+  - Cập nhật công nghệ mới.
+
+### Ngành học liên quan  
+- Kỹ thuật sửa chữa, Công nghệ kỹ thuật phần mềm/phần cứng, Công nghệ thông tin.
+
+### Nhu cầu nhân lực  
+- Nhu cầu tăng cao nhờ vào sự phổ biến của máy tính trong gia đình và doanh nghiệp.  
+
+---
+
+## 2. Nhóm nghề Quản trị trong ngành Công nghệ thông tin  
+
+### Công việc chính  
+- **Quản trị mạng**:  
+  - Quản lý, cấu hình, bảo mật hệ thống mạng.  
+  - Theo dõi hiệu suất, xử lý sự cố mạng.  
+- **Bảo mật thông tin**:  
+  - Phát triển, triển khai các biện pháp bảo mật.  
+  - Giám sát và xử lý các sự cố bảo mật.  
+- **Quản trị hệ thống**:  
+  - Duy trì và đảm bảo hiệu suất, ổn định hệ thống thông tin.
+
+### Lý do nhu cầu nhân lực tăng cao  
+1. **Quản trị mạng**:  
+   - Số lượng thiết bị kết nối tăng mạnh và yêu cầu cao hơn về sự ổn định, an toàn mạng.  
+   - Các mô hình làm việc từ xa đòi hỏi quản trị mạng hiệu quả.  
+   - Tấn công mạng ngày càng tinh vi, dẫn đến nhu cầu về chuyên gia có kỹ năng cao trong quản trị mạng.  
+   
+2. **Bảo mật hệ thống thông tin**:  
+   - Sự phức tạp và tinh vi của các cuộc tấn công mạng tăng lên.  
+   - Dữ liệu ngày càng gia tăng, cùng với yêu cầu tuân thủ các quy định về an ninh thông tin.  
+   - Sự cạnh tranh trong ngành này yêu cầu nhân lực không chỉ có trình độ kỹ thuật cao mà còn phải nhanh nhạy trong việc ứng phó với các xu hướng tấn công mới.  
+
+3. **Quản trị và bảo trì hệ thống**:  
+   - Quá trình chuyển đổi số và gia tăng số lượng thiết bị công nghệ thông tin tạo ra nhu cầu lớn về quản trị hệ thống.  
+   - Các yêu cầu mới như quản lý từ xa và sử dụng công cụ hiện đại (ví dụ: AI) giúp tăng hiệu suất và đảm bảo tính ổn định của hệ thống.  
+
+`;
+
+export const lessonContents = [
+  lessonContent1,
+  lessonContent2,
+  lessonContent3,
+  lessonContent4,
+  lessonContent5,
+] as const;
