@@ -76,11 +76,6 @@ export default function ExamModal({ isOpen, onClose, exam = null, refetch }: Exa
 
     const { easySize, mediumSize, hardSize, subject } = data;
 
-    if (easySize <= 0 || mediumSize <= 0 || hardSize <= 0) {
-      toast.error("Hãy chọn số lượng câu hỏi cho mỗi loại. Mỗi loại ít nhất 1 câu");
-      return;
-    }
-
     if (exam) {
       onUpdate({ ...exam, ...data });
     } else {

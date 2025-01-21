@@ -231,7 +231,7 @@ export const course4 = {
   lessons: [
     {
       id: 1,
-      title: "Giữ gìn tính nhân văn trong thế giới ảo",
+      title: "Cấu trúc trang Web dưới dạng HTML",
       duration: "45 phút",
       status: "published" as "published" | "draft",
       content: ` 

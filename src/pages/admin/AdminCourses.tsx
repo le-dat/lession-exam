@@ -37,13 +37,20 @@ export default function AdminCourses() {
     },
     {
       id: 4,
-      title: "Giữ gìn tính nhân văn trong thế giới ảo",
-      description: "Giao tiếp qua mạng kết nối mọi người nhanh chóng, tiện lợi.",
+      title: "Cấu trúc trang Web dưới dạng HTML",
+      description: "HTML là ngôn ngữ đánh dấu để tạo nên cấu trúc trang Web.",
       duration: "12 tuần",
       lessons: 24,
       students: 128,
     },
-   
+    {
+      id: 5,
+      title: "Giới thiệu nhóm nghề dịch vụ và quản trị",
+      description: "Công việc của nhóm nghề dịch vụ và quản trị.",
+      duration: "12 tuần",
+      lessons: 24,
+      students: 128,
+    },
   ];
 
   const handleEditCourse = (course: any) => {
@@ -98,11 +105,11 @@ export default function AdminCourses() {
               </div>
               <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
               <p className="text-gray-600 mb-4">{course.description}</p>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <div className="text-sm text-gray-500">Thời gian: {course.duration}</div>
                 <div className="text-sm text-gray-500">Bài học: {course.lessons}</div>
                 <div className="text-sm text-gray-500">Số lượng học sinh: {course.students}</div>
-              </div>
+              </div> */}
               <button
                 onClick={() => navigate(`/admin/courses/${course.id}`)}
                 className="mt-4 w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200"
